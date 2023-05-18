@@ -24,15 +24,25 @@ target_include_directories(
     src
 )
 
-target_link_directories(
-    ${PROJECT_NAME}
-    PUBLIC
-    ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/Debug
-)
+# Do a for each loop here
+set(SFML_LIBRARIES)
+if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+    message("Using Debug libraries.")
+    find_library(SFML_GRAPHICS_LIB sfml-graphics-d HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
+    find_library(SFML_WINDOW_LIB   sfml-window-d HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
+    find_library(SFML_SYSTEM_LIB   sfml-system-d HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
+    list(APPEND SFML_LIBRARIES ${SFML_GRAPHICS_LIB} ${SFML_WINDOW_LIB} ${SFML_SYSTEM_LIB})
+else()
+    message("Using Release libraries.")
+    find_library(SFML_GRAPHICS_LIB sfml-graphics HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
+    find_library(SFML_WINDOW_LIB   sfml-window HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
+    find_library(SFML_SYSTEM_LIB   sfml-system HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
+    list(APPEND SFML_LIBRARIES ${SFML_GRAPHICS_LIB} ${SFML_WINDOW_LIB} ${SFML_SYSTEM_LIB})
+endif()
 
 target_link_libraries(
     ${PROJECT_NAME}
-    sfml-graphics-d.lib sfml-window-d.lib sfml-system-d.lib
+    ${SFML_LIBRARIES}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DBK_ASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/assets")
