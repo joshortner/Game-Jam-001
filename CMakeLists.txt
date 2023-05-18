@@ -27,12 +27,12 @@ target_include_directories(
 target_link_directories(
     ${PROJECT_NAME}
     PUBLIC
-    ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib
+    ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/Debug
 )
 
 target_link_libraries(
     ${PROJECT_NAME}
-    sfml-graphics sfml-window sfml-system
+    sfml-graphics-d.lib sfml-window-d.lib sfml-system-d.lib
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DBK_ASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/assets")
