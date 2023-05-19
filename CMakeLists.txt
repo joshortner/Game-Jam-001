@@ -15,6 +15,8 @@ add_executable(
     src/object_manager/object_npc.cpp
     src/object_manager/object_mgr.cpp
     src/application/application.cpp
+    src/animation/animation_system.cpp
+    src/animation/node_interface.cpp
 
     # Scenes
     src/scene/scene.cpp
