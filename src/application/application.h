@@ -17,6 +17,7 @@ namespace bk
     public:
         static application& create(const sf::Vector2u& dimensions, scene* const start_scene);
         static application& get() { BK_ASSERT(sp_application != nullptr, "Applicaiton no initialized"); return *sp_application; }
+        static void destroy() { delete sp_application; }
 
         void run();
         sf::RenderWindow& get_window() { return m_window; }
