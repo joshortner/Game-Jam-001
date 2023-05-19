@@ -34,8 +34,6 @@ void test_scene::on_update(double dt)
     room_coordinates.x = (float)(int)room_coordinates.x;
     room_coordinates.y = (float)(int)room_coordinates.y;
 
-    std::cout << room_coordinates.x << ", " << room_coordinates.y << "\n";
-
     target_pos = { 
         (double)get_size().x / 2.0 + (double)get_size().x * (double)room_coordinates.x, 
         (double)get_size().y / 2.0 + (double)get_size().y * (double)room_coordinates.y };

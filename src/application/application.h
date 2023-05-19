@@ -15,7 +15,6 @@ namespace bk
         public utility::no_copy
     {
     public:
-
         static application& create(const sf::Vector2u& dimensions, scene* const start_scene);
         static application& get() { BK_ASSERT(sp_application != nullptr, "Applicaiton no initialized"); return *sp_application; }
 
@@ -26,6 +25,7 @@ namespace bk
     private:
 
         application(const sf::Vector2u& dimensions, scene* const start_scene);
+        ~application();
 
     private:
 

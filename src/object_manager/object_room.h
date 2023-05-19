@@ -9,6 +9,7 @@ namespace bk
     {
     public:
         object_room(scene& scene);
+        ~object_room() = default;
 
         void on_update(double dt);
         void on_render(sf::RenderTarget& target);
