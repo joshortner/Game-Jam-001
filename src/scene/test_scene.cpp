@@ -39,10 +39,11 @@ void test_scene::on_update(double dt)
 
     target_pos = { 
         (double)get_size().x / 2.0 + (double)get_size().x * (double)room_coordinates.x, 
-        (double)get_size().y / 2.0 + (double)get_size().y * (double)room_coordinates.y };
+        (double)get_size().y / 2.0 + (double)get_size().y * (double)room_coordinates.y 
+    };
 
-    camera_pos += (target_pos - camera_pos) * 0.7 * 5.0 * dt;
-    m_surface.setView(sf::View((sf::Vector2f)camera_pos, (sf::Vector2f)get_size()));
+    camera_pos += (target_pos - camera_pos) * 0.9 * 5.0 * dt;
+    set_view(sf::View((sf::Vector2f)camera_pos, (sf::Vector2f)get_size()));
 }
 
 void test_scene::on_event(event event) 

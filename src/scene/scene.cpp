@@ -40,6 +40,7 @@ namespace bk
     void scene::set_view(const sf::View& view) 
     {
         m_view = view;
+        m_surface.setView(view);
     }
 
     void scene::update_objects(double dt)

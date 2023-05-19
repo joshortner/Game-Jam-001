@@ -19,7 +19,7 @@ namespace bk
     {
         if (event.m_type == event_type::mouse_button_pressed)
             if (event.m_mouse_button.button == sf::Mouse::Button::Left) mouse_down = true;
-        else if (event.m_type == event_type::mouse_button_released)
+        if (event.m_type == event_type::mouse_button_released)
             if (event.m_mouse_button.button == sf::Mouse::Button::Left) mouse_down = false;
     }
 
@@ -27,14 +27,17 @@ namespace bk
     {
         if (mouse_down)
         {
-            if (m_bullet_clock.getElapsedTime().asSeconds() > 0.1)
+            if (m_bullet_clock.getElapsedTime().asSeconds() > 0.05)
             {
                 sf::Vector2i mouse_position = sf::Mouse::getPosition(application::get().get_window());
                 sf::Vector2f scale = application::get().get_scale(m_scene);
                 sf::Vector2f scaled_mouse((float)mouse_position.x / scale.x, (float)mouse_position.y / scale.y);
 
-                sf::Vector2f dir = (scaled_mouse - (*m_player)->get_pos()).normalized();
+                sf::Vector2f diff = m_scene.get_view().getCenter() - (sf::Vector2f)m_scene.get_size() / 2.f;
 
+                sf::Vector2f dir = (scaled_mouse - ((*m_player)->get_pos() - diff)).normalized();
+
+                // Bullet spread
                 float mag   = dir.length();
                 float angle = dir.angle().asRadians() + ((float)(rand() % 100) / 50.f - 1.f) * 0.1f;
                 sf::Vector2f final_dir = sf::Vector2f(
@@ -46,8 +49,5 @@ namespace bk
                 m_bullet_clock.restart();
             }
         }
-
-        //std::vector<object_itf *> objects;
-        //m_scene.get_game_state().m_obj_mgr.get_object_type(objects, object_type::bullet);
     }
 }
