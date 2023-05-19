@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../utility/state.h"
-#include "../utility/no_copy.h"
+#include "state.h"
+#include "no_copy.h"
+#include "object_mgr.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -19,20 +20,29 @@ namespace bk
         public utility::no_copy,
         public utility::state<scene_state>
     {
-        const sf::Vector2u m_dimensions;
-
     protected:
         sf::RenderTexture m_surface;
 
     public:
+
+        struct game_state
+        {
+            object_mgr* mp_obj_mgr;
+        };
+
         // initializes the msurface member
         scene(const sf::Vector2u& dimensions);
         virtual ~scene() = default;
 
         sf::Vector2u       get_size() const;
         const sf::Texture& get_texture() const;
+        game_state&        get_game_state();
 
         virtual void on_update(double dt) = 0;
         virtual void on_render() = 0;
+
+    private:
+        const sf::Vector2u m_dimensions;
+        game_state m_game_state;
     };
 }
