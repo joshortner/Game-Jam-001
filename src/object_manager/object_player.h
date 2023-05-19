@@ -16,6 +16,8 @@ namespace bk
         void on_render(sf::RenderTarget& target);
         void on_event(event e);
 
+        sf::Vector2f get_pos() const { return rect.getPosition(); }
+
     private:
         std::bitset<4> m_movement;
         const float K = 5.f;
