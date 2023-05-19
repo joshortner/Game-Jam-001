@@ -1,7 +1,7 @@
 #pragma once
 
 #include "object_npc.h"
-#include "object_allocator.h"
+#include "event.h"
 
 #include <SFML/Graphics.hpp>
 #include <stdint.h>
@@ -35,18 +35,23 @@ public:
     ~object_mgr() = default;
     void on_update(double dt);
     void on_render(const sf::RenderTarget& target);
+    void on_event(event e);
 
-    object_handle create_npc();
+    template<typename T, typename... Args>
+    T *create(Args&&... args);
 
 private:
-    static const inline uint32_t MAX_NPCS = 100;
-
     scene& m_scene;
 
-    struct {
-        object_allocator<object_npc> m_allocator;
-        std::vector<object_npc *> m_active_list;
-    } m_npcs;
+    std::vector<object_itf *> m_active_list;
 };
+
+template<typename T, typename... Args>
+T *object_mgr::create(Args&&... args)
+{    
+    T* p_obj = new T(std::forward<Args>(args)...);
+    m_active_list.push_back(p_obj);
+    return p_obj;
+}
 
 }

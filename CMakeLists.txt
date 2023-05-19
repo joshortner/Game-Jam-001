@@ -33,6 +33,7 @@ target_include_directories(
     src/scene
     src/application
     src/utility
+    src/event
 )
 
 # Do a for each loop here

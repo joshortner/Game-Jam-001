@@ -15,6 +15,7 @@ public:
 
     virtual void on_update(double dt) override;   
     virtual void on_render(const sf::RenderTarget& target) override;
+    virtual void on_event(event e) override;
 
 private:
 
