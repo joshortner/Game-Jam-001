@@ -6,7 +6,7 @@ namespace bk
 object_mgr::object_mgr(scene& scene) : 
     m_scene(scene)
 { 
-    object_npc* p_obj = create<object_npc>(scene);
+    
 }
 
 void object_mgr::on_update(double dt)

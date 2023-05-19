@@ -8,7 +8,8 @@ namespace bk
 {
 enum class object_type
 {
-    npc
+    npc,
+    player
 };
 
 class object_mgr;

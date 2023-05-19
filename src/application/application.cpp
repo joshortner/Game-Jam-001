@@ -80,6 +80,18 @@ namespace bk
         switch (e.type) 
         {
             case sf::Event::Closed: new_event.m_type = event_type::close; break;
+            case sf::Event::KeyPressed:
+            {
+                new_event.m_type = event_type::key_press;
+                new_event.m_key = e.key;
+                break;
+            } 
+            case sf::Event::KeyReleased:
+            {
+                new_event.m_type = event_type::key_release;
+                new_event.m_key = e.key;
+                break;
+            }
             case sf::Event::MouseButtonPressed: 
             {
                 new_event.m_type         = event_type::mouse_button_pressed; 

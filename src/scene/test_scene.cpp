@@ -4,6 +4,8 @@
 
 #include "../animation/node_interpolates.h"
 
+#include "../object_manager/object_player.h"
+
 
 namespace bk
 {
@@ -36,7 +38,8 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
     );
     m_system.push_animation(animation);*/
 
-    m_game_state.m_obj_mgr.create<object_npc>(*this);
+    //m_game_state.m_obj_mgr.create<object_npc>(*this);
+    m_game_state.m_obj_mgr.create<object_player>(*this);
 }
 
 void test_scene::on_update(double dt) 
@@ -48,15 +51,6 @@ void test_scene::on_update(double dt)
 void test_scene::on_render() 
 {
     m_surface.clear();
-
-    sf::RectangleShape rect;
-    rect.setPosition((sf::Vector2f)position);
-    rect.setSize(sf::Vector2f(20, 20));
-    rect.setOrigin({ rect.getSize().x / 2.f, rect.getSize().y / 2.f });
-    rect.setFillColor(sf::Color::Red);
-    m_surface.draw(rect);
-
-    m_surface.display();
 }
 
 }

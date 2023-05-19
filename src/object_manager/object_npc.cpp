@@ -1,5 +1,7 @@
 #include "object_npc.h"
 
+
+#include <iostream>
 #include <stdio.h>
 
 namespace bk
@@ -19,6 +21,7 @@ namespace bk
 
     void object_npc::on_render(sf::RenderTarget& target) 
     {
+        m_rect.setPosition((sf::Vector2f)target.getSize());
         target.draw(m_rect);
     }
 
