@@ -15,8 +15,7 @@ public:
     void on_render() override;
 
 private:
-    float x = 0;
-    float y = 0;
+    sf::Vector2f position = sf::Vector2f(0, 0);
 };
 
 }

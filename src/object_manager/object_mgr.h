@@ -3,6 +3,7 @@
 #include "object_npc.h"
 #include "object_allocator.h"
 
+#include <SFML/Graphics.hpp>
 #include <stdint.h>
 
 #include <vector>
@@ -30,11 +31,10 @@ static inline const object_id invalid_object = nullptr;
 class object_mgr
 {
 public:
-
     object_mgr(scene& scene);
-    ~object_mgr();
-    void on_update();
-    void on_render();
+    ~object_mgr() = default;
+    void on_update(double dt);
+    void on_render(const sf::RenderTarget& target);
 
     object_handle create_npc();
 
@@ -44,7 +44,7 @@ private:
     scene& m_scene;
 
     struct {
-        object_allocator<object_npc>* mp_allocator;
+        object_allocator<object_npc> m_allocator;
         std::vector<object_npc *> m_active_list;
     } m_npcs;
 };

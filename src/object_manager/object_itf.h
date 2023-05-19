@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace bk
 {
@@ -14,8 +14,8 @@ public:
 
     object_itf(scene& scene) : m_scene(scene) { }
 
-    virtual void on_update() = 0;
-    virtual void on_render() = 0;
+    virtual void on_update(double dt) = 0;
+    virtual void on_render(const sf::RenderTarget& target) = 0;
 
 protected:
 

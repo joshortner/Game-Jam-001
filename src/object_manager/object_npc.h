@@ -13,8 +13,8 @@ public:
 
     object_npc(scene& scene) : object_itf(scene) { }
 
-    virtual void on_update() override;   
-    virtual void on_render() override;
+    virtual void on_update(double dt) override;   
+    virtual void on_render(const sf::RenderTarget& target) override;
 
 private:
 

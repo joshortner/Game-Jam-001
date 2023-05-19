@@ -5,11 +5,11 @@
 namespace bk
 {
     scene::scene(const sf::Vector2u& dimensions) :
+        m_game_state { object_mgr(*this) },
         state<scene_state>(scene_state::created),
         m_dimensions(dimensions)
     {
         assert(m_surface.create(dimensions));
-        m_game_state.mp_obj_mgr = new object_mgr(*this);
     }
 
     sf::Vector2u scene::get_size() const

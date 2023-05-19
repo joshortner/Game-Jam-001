@@ -27,7 +27,7 @@ namespace bk
 
         struct game_state
         {
-            object_mgr* mp_obj_mgr;
+            object_mgr m_obj_mgr;
         };
 
         // initializes the msurface member
