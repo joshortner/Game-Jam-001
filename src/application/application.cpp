@@ -23,9 +23,7 @@ namespace bk
     }
 
     application::~application()
-    {
-        //m_window.~RenderWindow();
-    }
+    {   }
 
     void application::run()
     {

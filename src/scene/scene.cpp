@@ -15,9 +15,7 @@ namespace bk
     }
 
     scene::~scene()
-    {
-        m_surface.~RenderTexture();
-    }
+    {   }
 
     sf::Vector2u scene::get_size() const
     {
