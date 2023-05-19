@@ -19,14 +19,17 @@ namespace bk
         public utility::no_copy,
         public utility::state<scene_state>
     {
+        const sf::Vector2u m_dimensions;
+
     protected:
-        sf::RenderTexture msurface;
+        sf::RenderTexture m_surface;
 
     public:
         // initializes the msurface member
         scene(const sf::Vector2u& dimensions);
         virtual ~scene() = default;
 
+        sf::Vector2u       get_size() const;
         const sf::Texture& get_texture() const;
 
         virtual void on_update(double dt) = 0;

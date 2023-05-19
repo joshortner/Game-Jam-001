@@ -12,8 +12,8 @@ namespace bk
     class application : 
         public utility::no_copy
     {
-        sf::RenderWindow    mwindow;
-        std::vector<scene*> mscenes;
+        sf::RenderWindow    m_window;
+        std::vector<scene*> m_scenes;
 
     public:
         application(const sf::Vector2u& dimensions, scene* const start_scene);

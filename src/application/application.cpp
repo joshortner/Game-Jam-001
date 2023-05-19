@@ -4,40 +4,55 @@
 namespace bk
 {
     application::application(const sf::Vector2u& dimensions, scene* const start_scene) :
-        mwindow(sf::VideoMode(dimensions), "whats up"),
-        mscenes({ start_scene })
+        m_window(sf::VideoMode(dimensions), "whats up"),
+        m_scenes({ start_scene })
     {
 
     }
 
     void application::run()
     {
-        while (mwindow.isOpen() && mscenes.size())
+        sf::Clock frame_clock;
+        while (m_window.isOpen() && m_scenes.size())
         {
+            double dt = frame_clock.restart().asSeconds();
+
             sf::Event event;
-            while (mwindow.pollEvent(event))
+            while (m_window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed)
-                    mwindow.close();
+                    m_window.close();
             }
 
-            mwindow.clear();
+            m_window.clear();
 
-            scene* current_scene = mscenes.back();
+            // grab the top scene, if it's done delete it and grab the new
+            // top scene
+            scene* current_scene = m_scenes.back();
             if (current_scene->get_state() == scene_state::complete)
             {
                 delete current_scene;
-                mscenes.pop_back();
-                current_scene = mscenes.back();
+                m_scenes.pop_back();
+                current_scene = m_scenes.back();
             }
 
-            current_scene->on_update(0.0);
+            // update all the scenes...
+            for (auto* scene : m_scenes)
+                scene->on_update(dt);
+
+            // ... but render only the top scene
             current_scene->on_render();
 
-            sf::Sprite surface(mscenes[mscenes.size() - 1]->get_texture());
-            mwindow.draw(surface);
+            const sf::Vector2f scale = sf::Vector2f(
+                (float)m_window.getSize().x / (float)current_scene->get_size().x,
+                (float)m_window.getSize().y / (float)current_scene->get_size().y
+            );
 
-            mwindow.display();
+            sf::Sprite surface(current_scene->get_texture());
+            surface.setScale(scale);
+            m_window.draw(surface);
+
+            m_window.display();
         }
     }
 }
