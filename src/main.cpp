@@ -1,5 +1,5 @@
 #include "application.h"
-#include "test_scene.h"
+#include "main_menu_scene.h"
 
 /*
 Main character: Cowboy Synth
@@ -7,7 +7,7 @@ Main character: Cowboy Synth
 
 int main()
 {
-    bk::test_scene scene({ 640, 360 });
+    bk::main_menu_scene scene({ 640, 360 });
     bk::application& application = bk::application::create({ 1280, 720 }, &scene);
     application.run();
 }

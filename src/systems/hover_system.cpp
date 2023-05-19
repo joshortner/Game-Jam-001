@@ -23,9 +23,7 @@ void hover_system::on_update(double dt)
     
     for (object_itf* p_obj : objects) {
         sf::FloatRect rect(p_obj->m_position, p_obj->m_scale);
-        if (rect.contains(scaled_mouse)) {
-            p_obj->on_mouse_enter(scaled_mouse.x, scaled_mouse.y);
-        }
+        p_obj->set_hovered(rect.contains(scaled_mouse));
     }
 }
 

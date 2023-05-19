@@ -15,6 +15,7 @@ add_executable(
     src/object_manager/object_npc.cpp
     src/object_manager/object_mgr.cpp
     src/object_manager/object_player.cpp
+    src/object_manager/object_button.cpp
     src/application/application.cpp
     src/animation/animation_system.cpp
     src/animation/node_interface.cpp
@@ -23,6 +24,7 @@ add_executable(
     # Scenes
     src/scene/scene.cpp
     src/scene/test_scene.cpp
+    src/scene/main_menu_scene.cpp
 )
 
 target_include_directories(

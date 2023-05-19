@@ -39,6 +39,6 @@ namespace bk
 
     uint32_t animation_system::running_animations() const
     {
-        return m_nodes.size();
+        return (uint32_t)m_nodes.size();
     }
 }
