@@ -35,7 +35,7 @@ namespace bk
         sf::Vector2f a = (F - 3.f * K * m_velocity) / m;
         m_velocity += a * (float)dt;
 
-        rect.move(m_velocity);
+        rect.move(m_velocity * (float)dt);
     }
 
     void object_player::on_render(sf::RenderTarget& target)

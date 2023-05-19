@@ -19,7 +19,7 @@ namespace bk
         m_window(sf::VideoMode(dimensions), "Bullet Killer"),
         m_scenes({ start_scene })
     {
-
+        m_window.setFramerateLimit(60);
     }
 
     application::~application()
