@@ -1,5 +1,8 @@
 #include "application.h"
+#include "bullet_killer.h"
 #include "../scene/scene.h"
+
+#include <stdio.h>
 
 namespace bk
 {
