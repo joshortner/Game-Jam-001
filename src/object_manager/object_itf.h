@@ -12,7 +12,8 @@ namespace bk
 enum class object_type
 {
     any,
-    npc
+    npc,
+    player
 };
 
 class object_mgr;

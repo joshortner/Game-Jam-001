@@ -6,7 +6,6 @@ namespace bk
 {
     void animation_system::push_animation(animation_node_itf* node)
     {
-        std::cout << "pushing\n";
         m_nodes.push_back(node);
     }
 

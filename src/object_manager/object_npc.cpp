@@ -1,5 +1,7 @@
 #include "object_npc.h"
 
+
+#include <iostream>
 #include <stdio.h>
 
 namespace bk

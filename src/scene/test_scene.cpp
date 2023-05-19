@@ -4,6 +4,8 @@
 
 #include "../animation/node_interpolates.h"
 
+#include "../object_manager/object_player.h"
+
 
 namespace bk
 {

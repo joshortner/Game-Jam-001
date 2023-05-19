@@ -7,6 +7,7 @@ object_mgr::object_mgr(scene& scene) :
     m_scene(scene)
 { }
 
+
 void object_mgr::on_update(double dt)
 {
     for (object_itf* p_obj : m_active_list) { p_obj->on_update(dt); }
