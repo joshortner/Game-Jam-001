@@ -12,6 +12,8 @@ add_executable(
     ${PROJECT_NAME}
     src/main.cpp
     src/bullet_killer.cpp
+    src/object_manager/object_npc.cpp
+    src/object_manager/object_mgr.cpp
 )
 
 target_include_directories(
@@ -22,6 +24,7 @@ target_include_directories(
 
     # bullet killer
     src
+    src/object_manager
 )
 
 target_link_directories(
