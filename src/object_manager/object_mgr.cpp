@@ -14,7 +14,7 @@ void object_mgr::on_update(double dt)
     for (object_itf* p_obj : m_active_list) { p_obj->on_update(dt); }
 }
 
-void object_mgr::on_render(const sf::RenderTarget& target)
+void object_mgr::on_render(sf::RenderTarget& target)
 {
     for (object_itf* p_obj : m_active_list) { p_obj->on_render(target); }
 }

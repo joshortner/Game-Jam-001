@@ -17,7 +17,7 @@ public:
     object_itf(scene& scene) : m_scene(scene) { }
 
     virtual void on_update(double dt) = 0;
-    virtual void on_render(const sf::RenderTarget& target) = 0;
+    virtual void on_render(sf::RenderTarget& target) = 0;
     virtual void on_event(event e) = 0;
 
 protected:

@@ -27,6 +27,27 @@ namespace bk
         return m_game_state;
     }
 
+    const sf::View& scene::get_view() const
+    {
+        return m_view;
+    }
+
+    void scene::set_view(const sf::View& view) 
+    {
+        m_view = view;
+    }
+
+    void scene::update_objects(double dt)
+    {
+        m_game_state.m_obj_mgr.on_update(dt);
+    }
+
+    void scene::render_objects()
+    {
+        m_game_state.m_obj_mgr.on_render(m_surface);
+        m_surface.display();
+    }
+
     void scene::on_event(event e)
     {
         m_game_state.m_obj_mgr.on_event(e);

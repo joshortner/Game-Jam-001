@@ -34,10 +34,13 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
         &position, sf::Vector2<double>(20, 20), sf::Vector2<double>(50, 50), 2.0, 0.0
     );
     m_system.push_animation(animation);
+
+    m_game_state.m_obj_mgr.create<object_npc>(*this);
 }
 
 void test_scene::on_update(double dt) 
 {
+    m_surface.setView(get_view());
     m_system.update();
 }
 

@@ -34,7 +34,7 @@ public:
     object_mgr(scene& scene);
     ~object_mgr() = default;
     void on_update(double dt);
-    void on_render(const sf::RenderTarget& target);
+    void on_render(sf::RenderTarget& target);
     void on_event(event e);
 
     template<typename T, typename... Args>
