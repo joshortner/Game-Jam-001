@@ -25,6 +25,7 @@ namespace bk
     public:
         // initializes the msurface member
         scene(const sf::Vector2u& dimensions);
+        virtual ~scene() = default;
 
         const sf::Texture& get_texture() const;
 
