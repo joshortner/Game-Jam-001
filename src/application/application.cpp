@@ -39,21 +39,25 @@ namespace bk
 
             m_window.clear();
 
-            // update all the scenes...
+            // update only the top scene...
+            current_scene->on_update(dt);
+            current_scene->update_objects(dt);
+
+            // ... but render every other scene
             for (auto* scene : m_scenes)
-                scene->on_update(dt);
+            {
+                scene->on_render();
+                scene->render_objects();
 
-            // ... but render only the top scene
-            current_scene->on_render();
+                const sf::Vector2f scale = sf::Vector2f(
+                    (float)m_window.getSize().x / (float)scene->get_size().x,
+                    (float)m_window.getSize().y / (float)scene->get_size().y
+                );
 
-            const sf::Vector2f scale = sf::Vector2f(
-                (float)m_window.getSize().x / (float)current_scene->get_size().x,
-                (float)m_window.getSize().y / (float)current_scene->get_size().y
-            );
-
-            sf::Sprite surface(current_scene->get_texture());
-            surface.setScale(scale);
-            m_window.draw(surface);
+                sf::Sprite surface(scene->get_texture());
+                surface.setScale(scale);
+                m_window.draw(surface);
+            }
 
             m_window.display();
 
