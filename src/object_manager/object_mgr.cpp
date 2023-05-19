@@ -5,8 +5,12 @@ namespace bk
 
 object_mgr::object_mgr(scene& scene) : 
     m_scene(scene)
-{ 
-    
+{   }
+
+object_mgr::~object_mgr()
+{
+    for (auto* object : m_active_list) delete object;
+    m_active_list.clear();
 }
 
 void object_mgr::on_update(double dt)
@@ -16,6 +20,7 @@ void object_mgr::on_update(double dt)
 
 void object_mgr::on_render(sf::RenderTarget& target)
 {
+    std::sort(m_active_list.begin(), m_active_list.end(), [](auto* a, auto* b){ return a->get_z() > b->get_z(); });
     for (object_itf* p_obj : m_active_list) { p_obj->on_render(target); }
 }
 

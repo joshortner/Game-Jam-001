@@ -16,8 +16,8 @@ public:
     virtual void on_render() override;
 
 private:
-    sf::Vector2<double> position = sf::Vector2<double>(0, 0);
-    animation_system m_system;
+    sf::Vector2<double> target_pos;
+    sf::Vector2<double> camera_pos;
 };
 
 }
