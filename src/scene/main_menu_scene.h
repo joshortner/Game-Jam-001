@@ -1,0 +1,22 @@
+#pragma once
+
+#include "scene.h"
+#include "hover_system.h"
+
+namespace bk
+{
+
+class main_menu_scene : 
+    public scene
+{
+public:
+    main_menu_scene(const sf::Vector2u& dimensions);
+
+    virtual void on_update(double dt) override;
+    virtual void on_render() override;
+
+private:
+    hover_system m_hover_system;
+};
+
+}

@@ -13,6 +13,7 @@ static inline const char * TEXTURE_DIR = "textures";
 enum class texture
 {
     container,
+    start_button,
     room
 };
 

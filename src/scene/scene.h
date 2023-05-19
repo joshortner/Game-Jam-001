@@ -4,7 +4,6 @@
 #include "no_copy.h"
 #include "event.h"
 #include "object_mgr.h"
-#include "hover_system.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -31,8 +30,6 @@ namespace bk
         {
         // Managers
             object_mgr m_obj_mgr;
-        // Systems
-            hover_system m_hover_system;
         };
 
         // initializes the msurface member
