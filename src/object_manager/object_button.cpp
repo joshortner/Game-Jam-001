@@ -27,15 +27,14 @@ void object_button::on_event(event e)
 object_button_mm_start::object_button_mm_start(scene &scene) :
     object_button(scene)
 {
-    BK_ASSERT(m_texture.loadFromFile(get_texture_path(texture::container)));
-    m_position = { 500, 500 };
-    m_scale = { 50, 50 };
+    BK_ASSERT(m_texture.loadFromFile(get_texture_path(texture::start_button)), "Unable to load texture");
+    m_position = { 100, 100 };
+    m_scale = { 0.15f, 0.15f };
 }
 
 void object_button_mm_start::on_render(sf::RenderTarget& target) 
 {
     sf::Sprite sprite(m_texture);
-    sprite.setOrigin({ 0, 0 });
     sprite.setPosition(m_position);
     sprite.setScale(m_scale);
     target.draw(sprite);
