@@ -48,6 +48,8 @@ namespace bk
         virtual void on_render() { };
         virtual void on_event(event e);
 
+        object_mgr& get_object_manager() { return m_game_state.m_obj_mgr; }
+
     private:
         const sf::Vector2u m_dimensions;
 

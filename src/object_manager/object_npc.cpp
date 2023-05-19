@@ -5,7 +5,7 @@
 namespace bk
 {
     object_npc::object_npc(scene& scene) :
-        object_itf(scene)
+        object_itf(scene, object_type::npc)
     {
         m_rect.setFillColor(sf::Color::Red);
         m_rect.setSize({ 20, 20 });
