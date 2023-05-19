@@ -4,47 +4,44 @@
 
 #include "../animation/node_interpolates.h"
 
+#include "../object_manager/object_room.h"
 #include "../object_manager/object_player.h"
 
 
 namespace bk
 {
-
-template<typename T>
-class test_animation :
-    public animation_sine<T>
-{
-protected:
-    void on_state_changed(const animation_state& new_state) override
-    {
-        if (new_state == animation_state::done && this->get_state() != animation_state::done)
-        {
-            this->set_next_animation(new test_animation<sf::Vector2<double>>(
-                this->m_value, this->get_end_value(), this->get_start_value(), 2.0, 0.0
-            ));
-        }
-    }
-
-public:
-    using animation_sine<T>::animation_sine;
-};
-
 test_scene::test_scene(const sf::Vector2u& dimensions) :
     scene(dimensions)
 {
-    /*
-    auto* animation = new test_animation<sf::Vector2<double>>(
-        &position, sf::Vector2<double>(20, 20), sf::Vector2<double>(50, 50), 2.0, 0.0
-    );
-    m_system.push_animation(animation);*/
+    object_room* room = m_game_state.m_obj_mgr.create<object_room>(*this);
+    room->set_z(10.f);
+    m_player = m_game_state.m_obj_mgr.create<object_player>(*this);
 
+    camera_pos = (decltype(camera_pos))dimensions / 2.0;
     object_npc *p_obj = m_game_state.m_obj_mgr.create<object_npc>(*this);
 }
 
 void test_scene::on_update(double dt) 
 {
-    m_surface.setView(get_view());
-    m_system.update();
+    sf::Vector2f room_coordinates = sf::Vector2f(
+        m_player->get_pos().x / (float)get_size().x,
+        m_player->get_pos().y / (float)get_size().y
+    );
+
+    // hacking this to make it care about negative coordinates
+    if (room_coordinates.x < 0) room_coordinates.x -= 1.f;
+    if (room_coordinates.y < 0) room_coordinates.y -= 1.f;
+    room_coordinates.x = (float)(int)room_coordinates.x;
+    room_coordinates.y = (float)(int)room_coordinates.y;
+
+    std::cout << room_coordinates.x << ", " << room_coordinates.y << "\n";
+
+    target_pos = { 
+        (double)get_size().x / 2.0 + (double)get_size().x * (double)room_coordinates.x, 
+        (double)get_size().y / 2.0 + (double)get_size().y * (double)room_coordinates.y };
+
+    camera_pos += (target_pos - camera_pos) * 0.7 * 5.0 * dt;
+    m_surface.setView(sf::View((sf::Vector2f)camera_pos, (sf::Vector2f)get_size()));
 }
 
 void test_scene::on_render() 

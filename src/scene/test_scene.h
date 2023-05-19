@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../object_manager/object_player.h"
 #include "../animation/animation_system.h"
 #include "scene.h"
 
@@ -16,8 +17,9 @@ public:
     virtual void on_render() override;
 
 private:
-    sf::Vector2<double> position = sf::Vector2<double>(0, 0);
-    animation_system m_system;
+    object_player* m_player;
+    sf::Vector2<double> target_pos;
+    sf::Vector2<double> camera_pos;
 };
 
 }
