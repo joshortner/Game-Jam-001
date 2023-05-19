@@ -37,7 +37,7 @@ namespace bk
 
         // initializes the msurface member
         scene(const sf::Vector2u& dimensions);
-        virtual ~scene() = default;
+        virtual ~scene();
 
         sf::Vector2u       get_size() const;
         const sf::Texture& get_texture() const;

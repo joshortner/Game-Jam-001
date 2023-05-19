@@ -1,5 +1,7 @@
 #include "object_mgr.h"
 
+#include <iostream>
+
 namespace bk
 {
 

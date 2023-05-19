@@ -22,6 +22,11 @@ namespace bk
 
     }
 
+    application::~application()
+    {
+        m_window.~RenderWindow();
+    }
+
     void application::run()
     {
         sf::Clock frame_clock;
@@ -66,13 +71,15 @@ namespace bk
                 sf::Sprite surface(scene->get_texture());                
                 surface.setScale(scale);
                 m_window.draw(surface);
-
             }
 
             m_window.display();
 
             m_window.setTitle("FPS: " + std::to_string((int)(1.0 / dt)));
         }
+
+        for (scene* scene : m_scenes) delete scene;
+        m_scenes.clear();
     }
 
     void application::handle_event(sf::Event e) 

@@ -7,7 +7,7 @@ Main character: Cowboy Synth
 
 int main()
 {
-    bk::test_scene scene({ 640, 360 });
-    bk::application& application = bk::application::create({ 1280, 720 }, &scene);
+    bk::test_scene* scene = new bk::test_scene({ 640, 360 });
+    bk::application& application = bk::application::create({ 1280, 720 }, scene);
     application.run();
 }
