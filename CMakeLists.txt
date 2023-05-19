@@ -12,6 +12,8 @@ add_executable(
     ${PROJECT_NAME}
     src/main.cpp
     src/bullet_killer.cpp
+    src/scene/scene.cpp
+    src/application/application.cpp
 )
 
 target_include_directories(

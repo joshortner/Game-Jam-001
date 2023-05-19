@@ -1,5 +1,8 @@
 #pragma once
 
+#include "./scene/scene.h"
+#include "./application/application.h"
+
 namespace bk
 {
 
