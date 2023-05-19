@@ -12,18 +12,30 @@ namespace bk
         rect.setOrigin({ rect.getSize().x / 2.f, rect.getSize().y / 2.f });
     }
 
+    // movement is 
+    // a = (F - k*v) / m
+    // k is -FRICTION
+    // F is the 'move_dir' we're setting here.
+    // we know that dv = a * dt -> dv = (F - k * v)*t / m
+    // solve the differential equation to get 
+    //  v(t) = Ce^{-kt/m} + F/k
+    // as t -> infinity, v(infinity) = F/k = max velocity => F = max_velocity * k.
     void object_player::on_update(double dt)
     {
-        float mag = 1.f;
-        move_dir = { 0, 0 };
-        if (m_movement[0]) move_dir.y -= mag;
-        if (m_movement[1]) move_dir.y += mag;
-        if (m_movement[2]) move_dir.x -= mag;
-        if (m_movement[3]) move_dir.x += mag;
+        float mag = m_max_vel * K;
+        sf::Vector2f F = { 0, 0 };
+        if (m_movement[0]) F.y -= mag;
+        if (m_movement[1]) F.y += mag;
+        if (m_movement[2]) F.x -= mag;
+        if (m_movement[3]) F.x += mag;
         
-        const float length = move_dir.length();
-        if (length) move_dir = move_dir.normalized() * mag;
-        rect.move(move_dir);
+        if (F.length()) F = F.normalized() * mag;
+        
+        const float m = 1.f;
+        sf::Vector2f a = (F - 3.f * K * m_velocity) / m;
+        m_velocity += a * (float)dt;
+
+        rect.move(m_velocity);
     }
 
     void object_player::on_render(sf::RenderTarget& target)

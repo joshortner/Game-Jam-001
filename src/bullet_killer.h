@@ -13,7 +13,8 @@ static inline const char * TEXTURE_DIR = "textures";
 enum class texture
 {
     container,
-    start_button
+    start_button,
+    room
 };
 
 std::string get_texture_path(texture tex);

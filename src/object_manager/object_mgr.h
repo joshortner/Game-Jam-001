@@ -17,7 +17,8 @@ class object_mgr
 {
 public:
     object_mgr(scene& scene);
-    ~object_mgr() = default;
+    ~object_mgr();
+    
     void on_update(double dt);
     void on_render(sf::RenderTarget& target);
     void on_event(event e);
