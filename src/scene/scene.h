@@ -2,8 +2,9 @@
 
 #include "state.h"
 #include "no_copy.h"
-#include "object_mgr.h"
 #include "event.h"
+#include "object_mgr.h"
+#include "hover_system.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -28,7 +29,10 @@ namespace bk
     public:
         struct game_state
         {
+        // Managers
             object_mgr m_obj_mgr;
+        // Systems
+            hover_system m_hover_system;
         };
 
         // initializes the msurface member

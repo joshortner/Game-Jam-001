@@ -13,16 +13,6 @@ namespace bk
 
 class scene;
 
-typedef void * object_id;
-
-struct object_handle
-{
-    object_type m_type;
-    object_id m_id;
-};
-
-static inline const object_id invalid_object = nullptr;
-
 class object_mgr
 {
 public:

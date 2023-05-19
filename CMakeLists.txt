@@ -18,6 +18,7 @@ add_executable(
     src/application/application.cpp
     src/animation/animation_system.cpp
     src/animation/node_interface.cpp
+    src/systems/hover_system.cpp
 
     # Scenes
     src/scene/scene.cpp
@@ -37,6 +38,7 @@ target_include_directories(
     src/application
     src/utility
     src/event
+    src/systems
 )
 
 # Do a for each loop here

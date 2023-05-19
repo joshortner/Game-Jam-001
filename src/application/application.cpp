@@ -6,6 +6,15 @@
 
 namespace bk
 {
+
+    application& application::create(const sf::Vector2u& dimensions, scene* const start_scene)
+    {
+        if (sp_application == nullptr) {
+            sp_application = new application(dimensions, start_scene);
+        }
+        return *sp_application;
+    }
+
     application::application(const sf::Vector2u& dimensions, scene* const start_scene) :
         m_window(sf::VideoMode(dimensions), "whats up"),
         m_scenes({ start_scene })
