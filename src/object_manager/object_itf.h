@@ -14,6 +14,7 @@ enum class object_type
     any,
     npc,
     player,
+    button,
     room
 };
 
@@ -23,7 +24,7 @@ class scene;
 class object_itf
 {
 public:
-    object_itf(scene& scene, object_type type) : m_scene(scene), m_type(type), m_z(0) { }
+    object_itf(scene& scene, object_type type) : m_scene(scene), m_type(type), m_is_hovered(false), m_z(0) { }
     virtual ~object_itf() = default;
 
     void  set_z(float z) { m_z = z; }
@@ -33,7 +34,7 @@ public:
     virtual void on_render(sf::RenderTarget& target) = 0;
     virtual void on_event(event e) = 0;
 
-    virtual void on_mouse_enter(float x, float y) { }
+    void set_hovered(bool is_hovered) { m_is_hovered = is_hovered; }
 
     object_type get_type() const { return m_type; }
 
@@ -45,6 +46,7 @@ protected:
     float m_z;
     object_type m_type;
     scene& m_scene;
+    bool m_is_hovered;
 
     friend class object_mgr;
 };
