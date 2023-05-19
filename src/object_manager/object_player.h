@@ -18,7 +18,10 @@ namespace bk
 
     private:
         std::bitset<4> m_movement;
-        sf::Vector2f move_dir;
+        const float K = 5.f;
+        float m_max_vel = 0.5f;
+        sf::Vector2f m_velocity;
+        sf::Vector2f m_move_dir;
         sf::RectangleShape rect;
     };  
 }
