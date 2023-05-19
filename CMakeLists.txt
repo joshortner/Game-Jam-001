@@ -29,13 +29,14 @@ target_include_directories(
     src/object_manager
 )
 
+message("${CMAKE_BUILD_TYPE}")
 # Do a for each loop here
 set(SFML_LIBRARIES)
 if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
     message("Using Debug libraries.")
-    find_library(SFML_GRAPHICS_LIB sfml-graphics-d HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
-    find_library(SFML_WINDOW_LIB   sfml-window-d HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
-    find_library(SFML_SYSTEM_LIB   sfml-system-d HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/)
+    find_library(SFML_GRAPHICS_LIB sfml-graphics-d.lib HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/ ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/Debug)
+    find_library(SFML_WINDOW_LIB   sfml-window-d.lib HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/ ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/Debug)
+    find_library(SFML_SYSTEM_LIB   sfml-system-d.lib HINTS ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/ ${CMAKE_SOURCE_DIR}/deps/sfml/build/lib/Debug)
     list(APPEND SFML_LIBRARIES ${SFML_GRAPHICS_LIB} ${SFML_WINDOW_LIB} ${SFML_SYSTEM_LIB})
 else()
     message("Using Release libraries.")
