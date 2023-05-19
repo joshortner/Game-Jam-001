@@ -10,6 +10,7 @@ namespace bk
         m_dimensions(dimensions)
     {
         assert(m_surface.create(dimensions));
+        set_view(sf::View((sf::Vector2f)dimensions / 2.f, (sf::Vector2f)dimensions));
     }
 
     sf::Vector2u scene::get_size() const

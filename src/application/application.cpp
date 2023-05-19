@@ -54,9 +54,10 @@ namespace bk
                     (float)m_window.getSize().y / (float)scene->get_size().y
                 );
 
-                sf::Sprite surface(scene->get_texture());
+                sf::Sprite surface(scene->get_texture());                
                 surface.setScale(scale);
                 m_window.draw(surface);
+
             }
 
             m_window.display();
