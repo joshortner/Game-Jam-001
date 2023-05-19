@@ -28,11 +28,10 @@ public:
     virtual void on_render(sf::RenderTarget& target) = 0;
     virtual void on_event(event e) = 0;
 
-    virtual void on_mouse_enter() { printf("ENTER\n"); }
+    virtual void on_mouse_enter(float x, float y) { }
 
     object_type get_type() const { return m_type; }
 
-    sf::Transform m_transform;
     sf::Vector2f m_position;
     sf::Vector2f m_rotation;
     sf::Vector2f m_scale;

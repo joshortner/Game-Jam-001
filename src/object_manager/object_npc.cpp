@@ -10,9 +10,9 @@ namespace bk
         object_itf(scene, object_type::npc)
     {
         m_rect.setFillColor(sf::Color::Blue);
-        m_rect.setOrigin({ m_rect.getSize().x / 2.f, m_rect.getSize().y / 2.f });
+        //m_rect.setOrigin({ m_rect.getSize().x / 2.f, m_rect.getSize().y / 2.f });
         
-        m_position = { 500, 500 };
+        m_position = { 100, 100 };
         m_scale = { 20, 20 };
     }
 

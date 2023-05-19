@@ -16,7 +16,7 @@ namespace bk
     }
 
     application::application(const sf::Vector2u& dimensions, scene* const start_scene) :
-        m_window(sf::VideoMode(dimensions), "whats up"),
+        m_window(sf::VideoMode(dimensions), "Bullet Killer"),
         m_scenes({ start_scene })
     {
 
@@ -122,5 +122,13 @@ namespace bk
             default: new_event.m_type = event_type::unknown;
         }
         return new_event;
+    }
+
+    sf::Vector2f application::get_scale(scene& scene) const
+    {
+        return sf::Vector2f(
+            (float)m_window.getSize().x / (float)scene.get_size().x,
+            (float)m_window.getSize().y / (float)scene.get_size().y
+        );
     }
 }

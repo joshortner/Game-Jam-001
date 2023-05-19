@@ -18,13 +18,13 @@ void hover_system::on_update(double dt)
     m_scene.get_game_state().m_obj_mgr.get_object_type(objects, object_type::any);
 
     sf::Vector2i mouse_position = sf::Mouse::getPosition(application::get().get_window());
-    printf("mouse: %d %d\n", mouse_position.x, mouse_position.y);
+    sf::Vector2f scale = application::get().get_scale(m_scene);
+    sf::Vector2f scaled_mouse((float)mouse_position.x / scale.x, (float)mouse_position.y / scale.y);
     
     for (object_itf* p_obj : objects) {
         sf::FloatRect rect(p_obj->m_position, p_obj->m_scale);
-        printf("Obj: %f %f\n", rect.getPosition().x, rect.getPosition().y);
-        if (rect.contains({ (float)mouse_position.x, (float)mouse_position.y })) {
-            printf("Hovered\n");
+        if (rect.contains(scaled_mouse)) {
+            p_obj->on_mouse_enter(scaled_mouse.x, scaled_mouse.y);
         }
     }
 }

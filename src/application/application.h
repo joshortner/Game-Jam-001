@@ -21,6 +21,7 @@ namespace bk
 
         void run();
         sf::RenderWindow& get_window() { return m_window; }
+        sf::Vector2f get_scale(scene& scene) const;
 
     private:
 
