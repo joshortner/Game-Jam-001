@@ -9,7 +9,8 @@ namespace bk
 static inline const char * const g_texture_files_table[] = {
     "container.jpg",
     "start_button.png",
-    "room.png"
+    "room.png",
+    "bullet.png"
 };
 
 std::string get_texture_path(texture tex)

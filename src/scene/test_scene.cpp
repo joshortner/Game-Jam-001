@@ -11,7 +11,8 @@
 namespace bk
 {
 test_scene::test_scene(const sf::Vector2u& dimensions) :
-    scene(dimensions)
+    scene(dimensions),
+    m_bullet_system(*this, &m_player)
 {
     object_room* room = m_game_state.m_obj_mgr.create<object_room>(*this);
     room->set_z(10.f);
@@ -23,6 +24,8 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
 
 void test_scene::on_update(double dt) 
 {
+    m_bullet_system.on_update(dt);
+
     sf::Vector2f room_coordinates = sf::Vector2f(
         m_player->get_pos().x / (float)get_size().x,
         m_player->get_pos().y / (float)get_size().y
@@ -40,6 +43,12 @@ void test_scene::on_update(double dt)
 
     camera_pos += (target_pos - camera_pos) * 0.7 * 5.0 * dt;
     m_surface.setView(sf::View((sf::Vector2f)camera_pos, (sf::Vector2f)get_size()));
+}
+
+void test_scene::on_event(event event) 
+{
+    m_game_state.m_obj_mgr.on_event(event);
+    m_bullet_system.on_event(event);
 }
 
 void test_scene::on_render() 

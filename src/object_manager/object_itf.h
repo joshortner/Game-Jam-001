@@ -15,7 +15,8 @@ enum class object_type
     npc,
     player,
     button,
-    room
+    room,
+    bullet
 };
 
 class object_mgr;
