@@ -18,6 +18,7 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
     m_player = m_game_state.m_obj_mgr.create<object_player>(*this);
 
     camera_pos = (decltype(camera_pos))dimensions / 2.0;
+    object_npc *p_obj = m_game_state.m_obj_mgr.create<object_npc>(*this);
 }
 
 void test_scene::on_update(double dt) 
