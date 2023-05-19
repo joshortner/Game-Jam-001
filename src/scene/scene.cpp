@@ -26,4 +26,9 @@ namespace bk
     {
         return m_game_state;
     }
+
+    void scene::on_event(event e)
+    {
+        m_game_state.m_obj_mgr.on_event(e);
+    }
 }

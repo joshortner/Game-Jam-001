@@ -17,15 +17,6 @@ namespace bk
         {
             double dt = frame_clock.restart().asSeconds();
 
-            sf::Event event;
-            while (m_window.pollEvent(event))
-            {
-                if (event.type == sf::Event::Closed)
-                    m_window.close();
-            }
-
-            m_window.clear();
-
             // grab the top scene, if it's done delete it and grab the new
             // top scene
             scene* current_scene = m_scenes.back();
@@ -35,6 +26,15 @@ namespace bk
                 m_scenes.pop_back();
                 current_scene = m_scenes.back();
             }
+
+            sf::Event event;
+            while (m_window.pollEvent(event))
+            {
+                handle_event(event);
+                current_scene->on_event(convert_sfml_event(event));
+            }
+
+            m_window.clear();
 
             // update all the scenes...
             for (auto* scene : m_scenes)
@@ -56,5 +56,42 @@ namespace bk
 
             m_window.setTitle("FPS: " + std::to_string((int)(1.0 / dt)));
         }
+    }
+
+    void application::handle_event(sf::Event e) 
+    {
+        // Handle events at application level
+        if (e.type == sf::Event::Closed) {
+            m_window.close();
+        }
+    }
+
+    event application::convert_sfml_event(sf::Event e) const
+    {
+        event new_event;
+        switch (e.type) 
+        {
+            case sf::Event::Closed: new_event.m_type = event_type::close; break;
+            case sf::Event::MouseButtonPressed: 
+            {
+                new_event.m_type         = event_type::mouse_button_pressed; 
+                new_event.m_mouse_button = e.mouseButton; 
+                break;
+            }
+            case sf::Event::MouseButtonReleased: 
+            {
+                new_event.m_type         = event_type::mouse_button_released; 
+                new_event.m_mouse_button = e.mouseButton; 
+                break;
+            }
+            case sf::Event::MouseMoved:
+            {
+                new_event.m_type       = event_type::mouse_moved;
+                new_event.m_mouse_move = e.mouseMove;
+                break;
+            }
+            default: new_event.m_type = event_type::unknown;
+        }
+        return new_event;
     }
 }

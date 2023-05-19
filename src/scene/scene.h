@@ -3,6 +3,7 @@
 #include "state.h"
 #include "no_copy.h"
 #include "object_mgr.h"
+#include "event.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -40,6 +41,7 @@ namespace bk
 
         virtual void on_update(double dt) = 0;
         virtual void on_render() = 0;
+        virtual void on_event(event e);
 
     private:
         const sf::Vector2u m_dimensions;

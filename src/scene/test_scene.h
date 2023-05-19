@@ -11,8 +11,8 @@ class test_scene :
 public:
     using bk::scene::scene;
 
-    void on_update(double dt) override;
-    void on_render() override;
+    virtual void on_update(double dt) override;
+    virtual void on_render() override;
 
 private:
     sf::Vector2f position = sf::Vector2f(0, 0);
