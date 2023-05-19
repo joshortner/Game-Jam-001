@@ -1,15 +1,19 @@
 #include "scene.h"
+#include "common.h"
 
 #include <cassert>
 
 namespace bk
 {
     scene::scene(const sf::Vector2u& dimensions) :
-        m_game_state { object_mgr(*this) },
+        m_game_state { 
+            .m_obj_mgr = object_mgr(*this),
+            .m_hover_system = hover_system(*this) 
+        },
         state<scene_state>(scene_state::created),
         m_dimensions(dimensions)
     {
-        assert(m_surface.create(dimensions));
+        BK_ASSERT(m_surface.create(dimensions), "Error creating surface");
     }
 
     sf::Vector2u scene::get_size() const
@@ -39,6 +43,10 @@ namespace bk
 
     void scene::update_objects(double dt)
     {
+    // Systems
+        m_game_state.m_hover_system.on_update(dt);
+    
+    // Managers
         m_game_state.m_obj_mgr.on_update(dt);
     }
 

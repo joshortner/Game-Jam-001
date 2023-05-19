@@ -36,7 +36,8 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
     );
     m_system.push_animation(animation);*/
 
-    m_game_state.m_obj_mgr.create<object_npc>(*this);
+    object_npc *p_obj = m_game_state.m_obj_mgr.create<object_npc>(*this);
+    //p_obj->m_transform = p_obj->m_transform.translate({ 1000.0f, 1000.0f });
 }
 
 void test_scene::on_update(double dt) 
@@ -49,13 +50,15 @@ void test_scene::on_render()
 {
     m_surface.clear();
 
+    /*
     sf::RectangleShape rect;
     rect.setPosition((sf::Vector2f)position);
     rect.setSize(sf::Vector2f(20, 20));
     rect.setOrigin({ rect.getSize().x / 2.f, rect.getSize().y / 2.f });
     rect.setFillColor(sf::Color::Red);
     m_surface.draw(rect);
-
+    */
+    
     m_surface.display();
 }
 

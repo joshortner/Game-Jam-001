@@ -4,10 +4,14 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <stdio.h>
+
 namespace bk
 {
+
 enum class object_type
 {
+    any,
     npc
 };
 
@@ -23,12 +27,18 @@ public:
     virtual void on_render(sf::RenderTarget& target) = 0;
     virtual void on_event(event e) = 0;
 
+    virtual void on_mouse_enter() { printf("ENTER\n"); }
+
     object_type get_type() const { return m_type; }
+
+    sf::Transform m_transform;
+    sf::Vector2f m_position;
+    sf::Vector2f m_rotation;
+    sf::Vector2f m_scale;
 
 protected:
     object_type m_type;
     scene& m_scene;
-    sf::Transform m_transform;
 
     friend class object_mgr;
 };
