@@ -13,40 +13,34 @@
 namespace bk
 {
 
+object_mgr::object_mgr(scene& scene) : 
+    m_scene(scene) 
+{
+    m_npcs.mp_allocator = new object_allocator<object_npc>(MAX_NPCS);
+}
+
+object_mgr::~object_mgr()
+{
+    for (object_npc* p_npc : m_npcs.m_active_list) { delete p_npc; }
+    delete m_npcs.mp_allocator;
+}
+
 void object_mgr::on_update()
 {
-    for (int i = 0; i < MAX_NPCS; i++) {
-        if (m_npcs[i].m_active) {
-            m_npcs[i].on_update();
-        }
-    }
+    for (object_npc* p_npc : m_npcs.m_active_list) { p_npc->on_update(); }
 }
 
 void object_mgr::on_render()
 {
-    for (int i = 0; i < MAX_NPCS; i++) {
-        if (m_npcs[i].m_active) {
-            m_npcs[i].on_render();
-        }
-    }
+    for (object_npc* p_npc : m_npcs.m_active_list) { p_npc->on_render(); }
 }
 
 object_handle object_mgr::create_npc()
 {
-    int obj_idx = -1;
-    GET_AVAIL_OBJ_IDX_COMMON(obj_idx, MAX_NPCS, m_npcs);
-    
-    object_handle handle = {
+    return {
         .m_type = object_type::npc,
-        .m_id   = invalid_object
+        .m_id   = (object_id)m_npcs.mp_allocator->allocate(m_scene)
     };
-    
-    if (obj_idx != -1) {
-        handle.m_id = obj_idx;
-        m_npcs[obj_idx].m_active = true;
-    }
-
-    return handle;
 }
 
 }
