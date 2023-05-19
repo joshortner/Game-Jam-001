@@ -10,24 +10,39 @@
 class test_scene : 
     public bk::scene
 {
+    float x = 0;
+    float y = 0;
+
 public:
     using bk::scene::scene;
 
     void on_update(double dt) override
     {
+        static double t = 0;
+        t += dt;
 
+        y = (1 + sin(t)) * 220.f;
+        x = (1 + cos(t)) * 220.f;
     }
 
     void on_render() override
     {
+        m_surface.clear();
 
+        sf::RectangleShape rect;
+        rect.setPosition({x, y});
+        rect.setSize(sf::Vector2f(20, 20));
+        rect.setFillColor(sf::Color::Red);
+        m_surface.draw(rect);
+
+        m_surface.display();
     }
 };
 
 int main()
 {
-    test_scene scene({ 120, 120 });
-    bk::application application({ 800, 600 }, &scene);
+    test_scene scene({ 640, 480 });
+    bk::application application({ 1280, 720 }, &scene);
     application.run();
 }
 

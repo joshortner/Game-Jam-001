@@ -53,6 +53,8 @@ namespace bk
             m_window.draw(surface);
 
             m_window.display();
+
+            m_window.setTitle("FPS: " + std::to_string((int)(1.0 / dt)));
         }
     }
 }
