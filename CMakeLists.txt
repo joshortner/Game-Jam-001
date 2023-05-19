@@ -12,6 +12,10 @@ add_executable(
     ${PROJECT_NAME}
     src/main.cpp
     src/bullet_killer.cpp
+    src/object_manager/object_npc.cpp
+    src/object_manager/object_mgr.cpp
+    src/scene/scene.cpp
+    src/application/application.cpp
 )
 
 target_include_directories(
@@ -22,6 +26,7 @@ target_include_directories(
 
     # bullet killer
     src
+    src/object_manager
 )
 
 # Do a for each loop here

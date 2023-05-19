@@ -1,4 +1,5 @@
 #include "bullet_killer.h"
+#include "object_mgr.h"
 
 #include "SFML/Window.hpp"
 #include "SFML/Audio.hpp"
@@ -6,8 +7,35 @@
 
 #include <stdio.h>
 
-int main() {
+class test_scene : 
+    public bk::scene
+{
+public:
+    using bk::scene::scene;
+
+    void on_update(double dt) override
+    {
+
+    }
+
+    void on_render() override
+    {
+
+    }
+};
+
+int main()
+{
+    test_scene scene({ 120, 120 });
+    bk::application application({ 800, 600 }, &scene);
+    application.run();
+}
+
+int main2() {
     printf("TEST: %s\n", bk::get_asset_dir());
+
+    bk::object_mgr obj_mgr;
+    bk::object_handle obj = obj_mgr.create_npc();
 
     sf::RenderWindow window(sf::VideoMode({800, 600}), "SFML window");
 
