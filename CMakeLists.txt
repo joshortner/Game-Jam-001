@@ -23,6 +23,7 @@ add_executable(
     src/animation/node_interface.cpp
     src/systems/hover_system.cpp
     src/systems/bullet_system.cpp
+    src/systems/room_system.cpp
 
     # Scenes
     src/scene/scene.cpp

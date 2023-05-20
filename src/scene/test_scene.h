@@ -3,6 +3,7 @@
 #include "../object_manager/object_player.h"
 #include "../animation/animation_system.h"
 #include "../systems/bullet_system.h"
+#include "../systems/room_system.h"
 #include "scene.h"
 
 namespace bk
@@ -20,6 +21,7 @@ public:
 
 private:
     bullet_system m_bullet_system;
+    room_system   m_room_system;
 
     object_player* m_player;
     sf::Vector2<double> target_pos;

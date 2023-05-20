@@ -37,15 +37,18 @@ namespace bk
 
                 sf::Vector2f dir = (scaled_mouse - ((*m_player)->get_pos() - diff)).normalized();
 
-                // Bullet spread
-                float mag   = dir.length();
-                float angle = dir.angle().asRadians() + ((float)(rand() % 100) / 50.f - 1.f) * 0.1f;
-                sf::Vector2f final_dir = sf::Vector2f(
-                    mag * cos(angle),
-                    mag * sin(angle)
-                );
-                
-                m_scene.get_game_state().m_obj_mgr.create<object_bullet>(m_scene, (*m_player)->get_pos(), final_dir, m_bullet_texture);
+                for (int i = -1; i <= 1; i++)
+                {
+                    // Bullet spread
+                    float mag   = dir.length();
+                    float angle = dir.angle().asRadians() + ((float)(rand() % 100) / 50.f - 1.f) * 0.1f + (float)i * 0.15f;
+                    sf::Vector2f final_dir = sf::Vector2f(
+                        mag * cos(angle),
+                        mag * sin(angle)
+                    );
+                    
+                    m_scene.get_game_state().m_obj_mgr.create<object_bullet>(m_scene, (*m_player)->get_pos(), final_dir, m_bullet_texture);
+                }
                 m_bullet_clock.restart();
             }
         }
