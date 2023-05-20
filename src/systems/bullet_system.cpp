@@ -38,7 +38,7 @@ namespace bk
 
                 sf::Vector2f dir = (scaled_mouse - ((*m_player)->get_pos() - diff)).normalized();
 
-                for (int i = 0; i <= 0 && (*m_player)->get_bullets(); i++)
+                for (int i = -1; i <= 1 && (*m_player)->get_bullets(); i++)
                 {
                     // Bullet spread
                     float mag   = dir.length();
@@ -49,7 +49,7 @@ namespace bk
                     );
                     
                     (*m_player)->shoot();
-                    m_scene.get_game_state().m_obj_mgr.create<object_exploder_bullet>(m_scene, (*m_player)->get_pos(), final_dir, m_bullet_texture);
+                    m_scene.get_game_state().m_obj_mgr.create<object_bullet>(m_scene, (*m_player)->get_pos(), final_dir, m_bullet_texture);
                 }
                 m_bullet_clock.restart();
             }
@@ -60,7 +60,7 @@ namespace bk
         for (auto* bullet : bullets)
         {
             const float distance = (bullet->get_pos() - (*m_player)->get_pos()).length();
-            if (distance >= 1000 || bullet->get_done()) m_scene.get_game_state().m_obj_mgr.remove_object(bullet);
+            if (distance >= 1000 || bullet->get_done()) m_scene.get_game_state().m_obj_mgr.remove_object(static_cast<object_itf*>(bullet));
         }
     }
 }

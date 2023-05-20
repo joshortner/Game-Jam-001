@@ -36,6 +36,7 @@ public:
 private:
     scene& m_scene;
 
+    std::vector<object_itf*> m_stage_list;
     std::vector<object_itf *> m_active_list;
 };
 
@@ -44,7 +45,7 @@ T *object_mgr::create(Args&&... args)
 {    
     static_assert(std::is_base_of<object_itf, T>::value);
     T* p_obj = new T(std::forward<Args>(args)...);
-    m_active_list.push_back(p_obj);
+    m_stage_list.push_back(p_obj);
     return p_obj;
 }
 
@@ -58,7 +59,7 @@ void object_mgr::get_object_type(std::vector<T*>& vector) const
     const object_type type = T::Type;
 
     for (auto* active : m_active_list)
-        if (active->get_type() == type)
+        if ((active->get_type() == type || active->get_type() == object_type::any) && active->active())
             vector.push_back(reinterpret_cast<T*>(active));
 
     vector.shrink_to_fit();
