@@ -17,7 +17,7 @@ namespace bk
 
         sf::Vector2i map_coordinates() { return m_coordinates; }
 
-        inline static const object_type Type = object_type::room;
+        TYPE_ENUM(object_type::room);
 
     private:
         const sf::Vector2i m_coordinates;

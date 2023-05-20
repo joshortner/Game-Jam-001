@@ -5,6 +5,7 @@
 #include "../bullet_killer.h"
 #include "../animation/node_interpolates.h"
 
+#include "../object_manager/object_enemy.h"
 #include "../object_manager/object_room.h"
 #include "../object_manager/object_player.h"
 
@@ -21,12 +22,33 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
 
     m_player = m_game_state.m_obj_mgr.create<object_player>(*this, m_ammo_texture);
 
+    for (uint32_t i = 0; i < 10; i++)
+        m_game_state.m_obj_mgr.create<object_enemy>(*this, m_player, sf::Vector2f(
+            (rand() % 100) / 100.f * dimensions.x,
+            (rand() % 100) / 100.f * dimensions.y
+        ));
+
     camera_pos = (decltype(camera_pos))dimensions / 2.0;
 }
 
 void test_scene::on_update(double dt) 
 {
     m_bullet_system.on_update(dt);
+
+    std::vector<object_enemy*> enemies;
+    get_game_state().m_obj_mgr.get_object_type(enemies);
+    for (auto* enemy : enemies)
+    {
+        enemy->set_z(enemy->get_pos().y / -100.f);
+        if (enemy->get_hp() <= 0)
+        {
+            get_game_state().m_obj_mgr.remove_object(enemy);
+            m_game_state.m_obj_mgr.create<object_enemy>(*this, m_player, sf::Vector2f(
+                (rand() % 100) / 100.f * get_size().x,
+                (rand() % 100) / 100.f * get_size().y
+            ));
+        }
+    }
 
     sf::Vector2f room_coordinates = sf::Vector2f(
         m_player->get_pos().x / (float)get_size().x,

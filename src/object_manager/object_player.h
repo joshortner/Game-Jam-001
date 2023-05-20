@@ -21,7 +21,7 @@ namespace bk
 
         sf::Vector2f get_pos() const { return rect.getPosition(); }
 
-        inline static const object_type Type = object_type::player;
+        TYPE_ENUM(object_type::player);
 
     private:
         sf::Sprite m_ammo;

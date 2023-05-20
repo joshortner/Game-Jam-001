@@ -10,15 +10,19 @@ namespace bk
     public:
         object_bullet(scene& scene, const sf::Vector2f& pos, const sf::Vector2f& dir, sf::Texture& texture);
 
-        void on_update(double dt);
+        virtual void on_update(double dt) override;
         void on_render(sf::RenderTarget& target);
         void on_event(event e);
 
+        void set_done(bool done) { m_done = done; }
+        bool get_done() const { return m_done; }
+
         sf::Vector2f get_pos() const { return m_pos; }
 
-        inline static const object_type Type = object_type::bullet;
+        TYPE_ENUM(object_type::bullet);
 
-    private:
+    protected:
+        bool m_done = false;
         sf::Vector2f m_pos;
         const sf::Vector2f m_direction;
         sf::Texture& m_texture;

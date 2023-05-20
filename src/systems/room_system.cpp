@@ -36,6 +36,6 @@ namespace bk
         
         for (uint32_t i = 0; i < SIZE; i++)
             if (indices[i] == -1)
-                m_scene.get_game_state().m_obj_mgr.create<object_room>(m_scene, adjacent[i])->set_z(10.f);
+                m_scene.get_game_state().m_obj_mgr.create<object_room>(m_scene, adjacent[i])->set_z(1000.f);
     }
 }

@@ -51,8 +51,15 @@ namespace bk
             int32_t num = (c - '0') - 1;
             if (num < 0) num = 9;
 
-            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
             m_ammo.setTextureRect(sf::IntRect({ 0, 16 * num }, { 16, 16 }));
+
+            m_ammo.setColor(sf::Color::Black);
+            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i * 10, 0));
+            m_ammo.move(sf::Vector2f(2, 2));
+            target.draw(m_ammo);
+
+            m_ammo.setColor(sf::Color::White);
+            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
             target.draw(m_ammo);
         }
     }
@@ -67,6 +74,7 @@ namespace bk
             case sf::Keyboard::S: m_movement[1] = 1; break;
             case sf::Keyboard::A: m_movement[2] = 1; break;
             case sf::Keyboard::D: m_movement[3] = 1; break;
+            case sf::Keyboard::R: bullets = 100; break;
             }
         }
         else if (e.m_type == event_type::key_release)

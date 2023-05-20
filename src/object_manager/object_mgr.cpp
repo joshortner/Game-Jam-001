@@ -35,6 +35,7 @@ void object_mgr::remove_object(object_itf* object)
 {
     auto it = std::find(m_active_list.begin(), m_active_list.end(), object);
     assert(it != m_active_list.end());
+    delete *it; 
     m_active_list.erase(it);
 }
 
