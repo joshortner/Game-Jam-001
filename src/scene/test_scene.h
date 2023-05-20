@@ -20,6 +20,8 @@ public:
     void on_event(event event) override;
 
 private:
+    sf::Texture m_ammo_texture;
+
     bullet_system m_bullet_system;
     room_system   m_room_system;
 

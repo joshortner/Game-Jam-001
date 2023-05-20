@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../bullet_killer.h"
 #include "../animation/node_interpolates.h"
 
 #include "../object_manager/object_room.h"
@@ -15,10 +16,12 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
     m_bullet_system(*this, &m_player),
     m_room_system(*this, &m_player)
 {
-    m_player = m_game_state.m_obj_mgr.create<object_player>(*this);
+    if (!m_ammo_texture.loadFromFile(get_texture_path(texture::numbers)))
+        std::cout << "Failed to load numbers texture\n";
+
+    m_player = m_game_state.m_obj_mgr.create<object_player>(*this, m_ammo_texture);
 
     camera_pos = (decltype(camera_pos))dimensions / 2.0;
-    object_npc *p_obj = m_game_state.m_obj_mgr.create<object_npc>(*this);
 }
 
 void test_scene::on_update(double dt) 

@@ -37,7 +37,7 @@ namespace bk
 
                 sf::Vector2f dir = (scaled_mouse - ((*m_player)->get_pos() - diff)).normalized();
 
-                for (int i = -1; i <= 1; i++)
+                for (int i = -1; i <= 1 && (*m_player)->get_bullets(); i++)
                 {
                     // Bullet spread
                     float mag   = dir.length();
@@ -47,6 +47,7 @@ namespace bk
                         mag * sin(angle)
                     );
                     
+                    (*m_player)->shoot();
                     m_scene.get_game_state().m_obj_mgr.create<object_bullet>(m_scene, (*m_player)->get_pos(), final_dir, m_bullet_texture);
                 }
                 m_bullet_clock.restart();

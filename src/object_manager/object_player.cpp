@@ -4,8 +4,9 @@
 
 namespace bk
 {
-    object_player::object_player(scene& scene) :
-        object_itf(scene, object_type::player)
+    object_player::object_player(scene& scene, const sf::Texture& bullet) :
+        object_itf(scene, object_type::player),
+        m_ammo(bullet)
     {
         rect.setFillColor(sf::Color::Red);
         rect.setSize({ 16.f, 16.f });
@@ -41,6 +42,19 @@ namespace bk
     void object_player::on_render(sf::RenderTarget& target)
     {
         target.draw(rect);
+        
+        std::string bullet_string = std::to_string(bullets);
+
+        uint32_t i = 0;
+        for (const auto& c : bullet_string)
+        {
+            int32_t num = (c - '0') - 1;
+            if (num < 0) num = 9;
+
+            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
+            m_ammo.setTextureRect(sf::IntRect({ 0, 16 * num }, { 16, 16 }));
+            target.draw(m_ammo);
+        }
     }
 
     void object_player::on_event(event e)
