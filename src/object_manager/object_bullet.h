@@ -15,6 +15,8 @@ namespace bk
         void on_render(sf::RenderTarget& target);
         void on_event(event e);
 
+        sf::Vector2f get_dir() const { return m_direction; }
+
         void set_done(bool done) { m_done = done; }
         bool get_done() const { return m_done; }
 

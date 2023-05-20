@@ -25,20 +25,38 @@ namespace bk
         std::vector<object_bullet*> bullets;
         m_scene.get_game_state().m_obj_mgr.get_object_type(bullets);
 
+        sf::Vector2f bullet_dir = sf::Vector2f(0, 0);
+
         for (auto* bullet : bullets)
-        {
             if (m_rect.getGlobalBounds().contains(bullet->get_pos()))
             {
-                //m_scene.get_game_state().m_obj_mgr.remove_object(bullet);
+                m_scene.get_game_state().m_obj_mgr.remove_object(bullet);
                 bullet->set_done(true);
                 hp -= 0.1f;
+                bullet_dir = bullet->get_dir();
             }
-        }
 
         // movement towards player
-        const sf::Vector2f dir = (m_player->get_pos() - m_rect.getPosition()).normalized();
-        const float movement_speed = 20.f;
-        m_rect.move(movement_speed * dir * (float)dt);
+        sf::Vector2f dir = (m_player->get_pos() - m_rect.getPosition()).normalized();
+
+        std::vector<object_enemy*> enemies;
+        m_scene.get_game_state().m_obj_mgr.get_object_type(enemies);
+        for (auto* enemy : enemies)
+        {
+            if (enemy == this) continue;
+
+            const sf::Vector2f displacement = enemy->get_pos() - get_pos();
+            dir = dir - displacement.normalized() * 100.f / powf(displacement.length(),2);
+        }
+
+        m_force = (dir + bullet_dir * 7.f) * 300.f;
+
+        const float K = 5.f;
+        const float m = 1.f;
+        sf::Vector2f a = (m_force - 3.f * K * m_velocity) / m;
+        m_velocity += a * (float)dt;
+
+        m_rect.move(m_velocity * (float)dt);
     }
 
     void object_enemy::on_render(sf::RenderTarget& target) 

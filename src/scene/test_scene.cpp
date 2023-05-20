@@ -5,6 +5,7 @@
 #include "../bullet_killer.h"
 #include "../animation/node_interpolates.h"
 
+#include "../object_manager/object_person.h"
 #include "../object_manager/object_enemy.h"
 #include "../object_manager/object_room.h"
 #include "../object_manager/object_player.h"
@@ -20,13 +21,20 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
     if (!m_ammo_texture.loadFromFile(get_texture_path(texture::numbers)))
         std::cout << "Failed to load numbers texture\n";
 
+    if (!m_person_texture.loadFromFile(get_texture_path(texture::person)))
+        std::cout << "Failed to load person texture\n";
+
     m_player = m_game_state.m_obj_mgr.create<object_player>(*this, m_ammo_texture);
 
+    for (uint32_t i = 0; i < 200; i++)
+        m_game_state.m_obj_mgr.create<object_person>(*this, m_person_texture);
+
+    /*
     for (uint32_t i = 0; i < 10; i++)
         m_game_state.m_obj_mgr.create<object_enemy>(*this, m_player, sf::Vector2f(
             (rand() % 100) / 100.f * dimensions.x,
             (rand() % 100) / 100.f * dimensions.y
-        ));
+        ));*/
 
     camera_pos = (decltype(camera_pos))dimensions / 2.0;
 }
@@ -35,6 +43,7 @@ void test_scene::on_update(double dt)
 {
     m_bullet_system.on_update(dt);
 
+    /*
     std::vector<object_enemy*> enemies;
     get_game_state().m_obj_mgr.get_object_type(enemies);
     for (auto* enemy : enemies)
@@ -48,7 +57,7 @@ void test_scene::on_update(double dt)
                 (rand() % 100) / 100.f * get_size().y
             ));
         }
-    }
+    }*/
 
     sf::Vector2f room_coordinates = sf::Vector2f(
         m_player->get_pos().x / (float)get_size().x,

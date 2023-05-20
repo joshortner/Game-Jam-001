@@ -20,7 +20,8 @@ enum class object_type
     button,
     room,
     bullet,
-    enemy
+    enemy,
+    person
 };
 
 class object_mgr;

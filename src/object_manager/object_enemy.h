@@ -21,6 +21,9 @@ namespace bk
         TYPE_ENUM(object_type::enemy);
 
     private:
+        sf::Vector2f m_velocity;
+        sf::Vector2f m_force;
+
         float random_t_offset = 0.f;
         float hp_offset = 0.f;
         float hp = 1.f;
