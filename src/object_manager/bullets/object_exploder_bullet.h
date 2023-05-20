@@ -15,9 +15,9 @@ namespace bk
         {
             m_pos += (float)dt * 250.f * m_direction;
 
-            if (clock.getElapsedTime().asSeconds() > 1 && !m_done)
+            if (clock.getElapsedTime().asSeconds() > 0.6 && !m_done)
             {
-                const int   segments = 10;
+                const int   segments = 20;
                 const float TWO_PI = 2.f * 3.14159f;
                 const float dtheta = TWO_PI / (float)segments;
 
@@ -28,7 +28,7 @@ namespace bk
                     );
 
                     m_scene.get_game_state().m_obj_mgr.create<object_bullet>(
-                        m_scene, get_pos(), dir, m_texture
+                        m_scene, get_pos(), dir, m_texture, 0.1
                     );
                 }
 
