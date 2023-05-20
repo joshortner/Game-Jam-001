@@ -49,5 +49,13 @@ namespace bk
                 m_bullet_clock.restart();
             }
         }
+
+        std::vector<object_bullet*> bullets;
+        m_scene.get_game_state().m_obj_mgr.get_object_type(bullets);
+        for (auto* bullet : bullets)
+        {
+            const float distance = (bullet->get_pos() - (*m_player)->get_pos()).length();
+            if (distance >= 1000) m_scene.get_game_state().m_obj_mgr.remove_object(bullet);
+        }
     }
 }

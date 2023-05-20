@@ -31,6 +31,13 @@ void object_mgr::on_event(event e)
     for (object_itf* p_obj : m_active_list) { p_obj->on_event(e); }
 }
 
+void object_mgr::remove_object(object_itf* object)
+{
+    auto it = std::find(m_active_list.begin(), m_active_list.end(), object);
+    assert(it != m_active_list.end());
+    m_active_list.erase(it);
+}
+
 void object_mgr::get_object_type(std::vector<object_itf*>& vector, object_type type) const
 {
     vector.clear();
@@ -41,6 +48,8 @@ void object_mgr::get_object_type(std::vector<object_itf*>& vector, object_type t
             return type == object_type::any || object->get_type() == type;
         }
     );
+
+    vector.shrink_to_fit();
 }
 
 }

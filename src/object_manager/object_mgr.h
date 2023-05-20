@@ -23,7 +23,12 @@ public:
     void on_render(sf::RenderTarget& target);
     void on_event(event e);
 
+    void remove_object(object_itf* object);
+
     void get_object_type(std::vector<object_itf*>& vector, object_type type) const;
+
+    template<typename T>
+    void get_object_type(std::vector<T*>& vector) const;
 
     template<typename T, typename... Args>
     T *create(Args&&... args);
@@ -37,9 +42,26 @@ private:
 template<typename T, typename... Args>
 T *object_mgr::create(Args&&... args)
 {    
+    static_assert(std::is_base_of<object_itf, T>::value);
     T* p_obj = new T(std::forward<Args>(args)...);
     m_active_list.push_back(p_obj);
     return p_obj;
+}
+
+template<typename T>
+void object_mgr::get_object_type(std::vector<T*>& vector) const
+{
+    static_assert(std::is_base_of<object_itf, T>::value);
+
+    vector.clear();
+    vector.reserve(m_active_list.size());
+    const object_type type = T::Type;
+
+    for (auto* active : m_active_list)
+        if (active->get_type() == type)
+            vector.push_back(reinterpret_cast<T*>(active));
+
+    vector.shrink_to_fit();
 }
 
 }

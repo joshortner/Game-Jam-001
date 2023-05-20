@@ -15,6 +15,8 @@ namespace bk
         void on_render(sf::RenderTarget& target);
         void on_event(event e);
 
+        inline static const object_type Type = object_type::room;
+
     private:
         sf::Texture room_texture;
     };

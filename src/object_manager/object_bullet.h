@@ -14,6 +14,10 @@ namespace bk
         void on_render(sf::RenderTarget& target);
         void on_event(event e);
 
+        sf::Vector2f get_pos() const { return m_pos; }
+
+        inline static const object_type Type = object_type::bullet;
+
     private:
         sf::Vector2f m_pos;
         const sf::Vector2f m_direction;

@@ -18,6 +18,8 @@ namespace bk
 
         sf::Vector2f get_pos() const { return rect.getPosition(); }
 
+        inline static const object_type Type = object_type::player;
+
     private:
         std::bitset<4> m_movement;
         const float K = 5.f;
