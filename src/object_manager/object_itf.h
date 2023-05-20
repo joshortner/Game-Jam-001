@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 
+#define TYPE_ENUM(e) inline static const object_type Type = e
+
 namespace bk
 {
 
@@ -16,7 +18,8 @@ enum class object_type
     player,
     button,
     room,
-    bullet
+    bullet,
+    enemy
 };
 
 class object_mgr;

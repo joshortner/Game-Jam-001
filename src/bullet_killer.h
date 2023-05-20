@@ -15,7 +15,8 @@ enum class texture
     container,
     start_button,
     room,
-    bullet
+    bullet,
+    numbers
 };
 
 std::string get_texture_path(texture tex);

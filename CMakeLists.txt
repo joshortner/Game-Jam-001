@@ -18,11 +18,13 @@ add_executable(
     src/object_manager/object_button.cpp
     src/object_manager/object_room.cpp
     src/object_manager/object_bullet.cpp
+    src/object_manager/object_enemy.cpp
     src/application/application.cpp
     src/animation/animation_system.cpp
     src/animation/node_interface.cpp
     src/systems/hover_system.cpp
     src/systems/bullet_system.cpp
+    src/systems/room_system.cpp
 
     # Scenes
     src/scene/scene.cpp
