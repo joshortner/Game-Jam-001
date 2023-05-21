@@ -23,6 +23,7 @@ namespace bk
     {
     protected:
         sf::RenderTexture m_surface;
+        sf::RenderTexture m_bloom_surface;
         sf::View m_view;
 
     public:

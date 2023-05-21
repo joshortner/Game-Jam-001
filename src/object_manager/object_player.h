@@ -3,6 +3,7 @@
 #include <bitset>
 
 #include "object_itf.h"
+#include "bullet_killer.h"
 
 namespace bk
 {
@@ -13,7 +14,7 @@ namespace bk
         object_player(scene& scene, const sf::Texture& bullet);
 
         void on_update(double dt);
-        void on_render(sf::RenderTarget& target);
+        void on_render(sf::RenderTarget& target, render_pass pass);
         void on_event(event e);
 
         void shoot(uint32_t bullet = 1) { if (bullets) bullets -= bullet; }

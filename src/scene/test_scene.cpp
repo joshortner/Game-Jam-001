@@ -1,14 +1,13 @@
 #include "test_scene.h"
 
-#include <iostream>
-
+#include "object_npc.h"
 #include "../bullet_killer.h"
 #include "../animation/node_interpolates.h"
-
 #include "../object_manager/object_enemy.h"
 #include "../object_manager/object_room.h"
 #include "../object_manager/object_player.h"
 
+#include <iostream>
 
 namespace bk
 {

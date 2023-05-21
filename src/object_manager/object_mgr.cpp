@@ -40,10 +40,10 @@ void object_mgr::on_update(double dt)
     m_stage_list.clear();
 }
 
-void object_mgr::on_render(sf::RenderTarget& target)
+void object_mgr::on_render(sf::RenderTarget& target, render_pass pass)
 {
     std::sort(m_active_list.begin(), m_active_list.end(), [](auto* a, auto* b){ return a->get_z() > b->get_z(); });
-    for (object_itf* p_obj : m_active_list) { p_obj->on_render(target); }
+    for (object_itf* p_obj : m_active_list) { p_obj->on_render(target, pass); }
 }
 
 void object_mgr::on_event(event e)

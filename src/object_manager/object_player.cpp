@@ -39,28 +39,35 @@ namespace bk
         rect.move(m_velocity * (float)dt);
     }
 
-    void object_player::on_render(sf::RenderTarget& target)
+    void object_player::on_render(sf::RenderTarget& target, render_pass pass)
     {
-        target.draw(rect);
-        
-        std::string bullet_string = std::to_string(bullets);
-
-        uint32_t i = 0;
-        for (const auto& c : bullet_string)
+        switch (pass)
         {
-            int32_t num = (c - '0') - 1;
-            if (num < 0) num = 9;
+          case render_pass::draw:
+          {  
+            target.draw(rect);
 
-            m_ammo.setTextureRect(sf::IntRect({ 0, 16 * num }, { 16, 16 }));
+            std::string bullet_string = std::to_string(bullets);
 
-            m_ammo.setColor(sf::Color::Black);
-            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i * 10, 0));
-            m_ammo.move(sf::Vector2f(2, 2));
-            target.draw(m_ammo);
+            uint32_t i = 0;
+            for (const auto& c : bullet_string)
+            {
+                int32_t num = (c - '0') - 1;
+                if (num < 0) num = 9;
 
-            m_ammo.setColor(sf::Color::White);
-            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
-            target.draw(m_ammo);
+                m_ammo.setTextureRect(sf::IntRect({ 0, 16 * num }, { 16, 16 }));
+
+                m_ammo.setColor(sf::Color::Black);
+                m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i * 10, 0));
+                m_ammo.move(sf::Vector2f(2, 2));
+                target.draw(m_ammo);
+
+                m_ammo.setColor(sf::Color::White);
+                m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
+                target.draw(m_ammo);
+            break;
+            }
+          }
         }
     }
 

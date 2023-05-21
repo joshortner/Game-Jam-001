@@ -2,6 +2,8 @@
 
 #include "../bullet_killer.h"
 
+#include <iostream>
+
 namespace bk
 {
     object_room::object_room(scene& scene, sf::Vector2i coordinates) :
@@ -22,11 +24,18 @@ namespace bk
         
     }
 
-    void object_room::on_render(sf::RenderTarget& target)
+    void object_room::on_render(sf::RenderTarget& target, render_pass pass)
     {
-        sf::Sprite sprite(room_texture);
-        sprite.setPosition(m_position);
-        target.draw(sprite);
+        switch (pass)
+        {
+            case render_pass::draw:
+            {
+                sf::Sprite sprite(room_texture);
+                sprite.setPosition(m_position);
+                target.draw(sprite);  
+                break;
+            }
+        }
     }
 
     void object_room::on_event(event e)
