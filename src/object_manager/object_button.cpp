@@ -53,6 +53,8 @@ void object_button_mm_start::on_update(double dt)
     static bool last_hover = m_is_hovered;
 
     if (m_is_hovered) {
+        //m_on = true;
+        
         if (last_hover != m_is_hovered) {
             m_on = true;
         }
@@ -61,6 +63,7 @@ void object_button_mm_start::on_update(double dt)
                 m_on = !m_on;
             }
         }
+    
     }
     else {
         m_on = false;
@@ -76,12 +79,12 @@ void object_button_mm_start::on_render(sf::RenderTarget& target, render_pass pas
         case render_pass::draw:
         case render_pass::bloom:
         {
+            if (!m_on && pass == render_pass::bloom) { return; }
             sf::Texture *p_texture = m_on ? mp_button_on : mp_button_off;
             sf::Sprite start_sprite(*p_texture);
             start_sprite.setPosition(m_position);
             start_sprite.setScale(m_scale);
             target.draw(start_sprite);
-            break;
         }
     }
 }

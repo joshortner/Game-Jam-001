@@ -96,7 +96,7 @@ void main_menu_scene::do_post_processing()
     blur_shader.setUniform("height", (float)blur_sprite.getTexture()->getSize().y);
     blur_shader.setUniform("texture", m_scratch_surface.getTexture());
     
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 10; i++) {
         // Horizontal pass
         blur_shader.setUniform("horizontal", true);
         m_scratch_surface.draw(blur_sprite, &blur_shader);
@@ -111,11 +111,6 @@ void main_menu_scene::do_post_processing()
     final_bloom_shader.setUniform("u_scene_texture", m_surface.getTexture());
     final_bloom_shader.setUniform("u_bloom_texture", m_scratch_surface.getTexture());
     m_surface.draw(final_sprite, &final_bloom_shader);
-
-    // Temp render image
-    //sf::Sprite tmp_sprite(m_scratch_surface.getTexture());
-    //tmp_sprite.setScale({ 0.75f, 0.75f });
-    //m_surface.draw(tmp_sprite);
 }
 
 }
