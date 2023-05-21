@@ -9,6 +9,7 @@
 #include "../object_manager/object_enemy.h"
 #include "../object_manager/object_room.h"
 #include "../object_manager/object_player.h"
+#include "../object_manager/object_text.h"
 
 
 namespace bk
@@ -24,17 +25,27 @@ test_scene::test_scene(const sf::Vector2u& dimensions) :
     if (!m_person_texture.loadFromFile(get_texture_path(texture::person)))
         std::cout << "Failed to load person texture\n";
 
+    if (!m_letter_texture.loadFromFile(get_texture_path(texture::letters)))
+        std::cout << "Failed to load letters texture\n";
+
+    if (!m_bullet_texture.loadFromFile(get_texture_path(texture::bullet)))
+        std::cout << "Failed to load bullet texture\n";
+
+    auto* text = m_game_state.m_obj_mgr.create<object_text>(*this, "KILL THEM", m_letter_texture);
+    text->m_position = (sf::Vector2f)dimensions / 2.f;
+    text->m_scale = sf::Vector2f(4, 4);
+    text->set_z(-700);
+
     m_player = m_game_state.m_obj_mgr.create<object_player>(*this, m_ammo_texture);
 
-    for (uint32_t i = 0; i < 200; i++)
-        m_game_state.m_obj_mgr.create<object_person>(*this, m_person_texture);
+    //for (uint32_t i = 0; i < 200; i++)
+    //    m_game_state.m_obj_mgr.create<object_person>(*this, m_person_texture);
 
-    /*
     for (uint32_t i = 0; i < 10; i++)
         m_game_state.m_obj_mgr.create<object_enemy>(*this, m_player, sf::Vector2f(
             (rand() % 100) / 100.f * dimensions.x,
             (rand() % 100) / 100.f * dimensions.y
-        ));*/
+        ), m_bullet_texture);
 
     camera_pos = (decltype(camera_pos))dimensions / 2.0;
 }
@@ -43,7 +54,12 @@ void test_scene::on_update(double dt)
 {
     m_bullet_system.on_update(dt);
 
-    /*
+    std::vector<object_text*> texts;
+    m_game_state.m_obj_mgr.get_object_type(texts);
+    for (auto* object_text : texts)
+        if (object_text->lifetime() > 1)
+            m_game_state.m_obj_mgr.remove_object(object_text);
+
     std::vector<object_enemy*> enemies;
     get_game_state().m_obj_mgr.get_object_type(enemies);
     for (auto* enemy : enemies)
@@ -55,9 +71,9 @@ void test_scene::on_update(double dt)
             m_game_state.m_obj_mgr.create<object_enemy>(*this, m_player, sf::Vector2f(
                 (rand() % 100) / 100.f * get_size().x,
                 (rand() % 100) / 100.f * get_size().y
-            ));
+            ), m_bullet_texture);
         }
-    }*/
+    }
 
     sf::Vector2f room_coordinates = sf::Vector2f(
         m_player->get_pos().x / (float)get_size().x,

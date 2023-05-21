@@ -12,7 +12,8 @@ static inline const char * const g_texture_files_table[] = {
     "room.png",
     "bullet.png",
     "numbers.png",
-    "person.png"
+    "person.png",
+    "letters.png"
 };
 
 std::string get_texture_path(texture tex)

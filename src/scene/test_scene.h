@@ -20,6 +20,8 @@ public:
     void on_event(event event) override;
 
 private:
+    sf::Texture m_bullet_texture;
+    sf::Texture m_letter_texture;
     sf::Texture m_person_texture;
     sf::Texture m_ammo_texture;
 

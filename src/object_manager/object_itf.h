@@ -21,7 +21,8 @@ enum class object_type
     room,
     bullet,
     enemy,
-    person
+    person,
+    text
 };
 
 class object_mgr;
@@ -43,6 +44,8 @@ public:
     void set_active(bool active) { m_active = active; }
     bool active() const { return m_active; }
 
+    double lifetime() const { return m_life.getElapsedTime().asSeconds(); }
+
     void set_hovered(bool is_hovered) { m_is_hovered = is_hovered; }
 
     object_type get_type() const { return m_type; }
@@ -57,6 +60,8 @@ protected:
     scene& m_scene;
     bool m_is_hovered;
     bool m_active;
+
+    sf::Clock m_life;
 
     friend class object_mgr;
 };

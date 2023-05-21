@@ -17,7 +17,8 @@ enum class texture
     room,
     bullet,
     numbers,
-    person
+    person,
+    letters
 };
 
 std::string get_texture_path(texture tex);
