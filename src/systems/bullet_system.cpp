@@ -49,7 +49,8 @@ namespace bk
                     );
                     
                     (*m_player)->shoot();
-                    m_scene.get_game_state().m_obj_mgr.create<object_bullet>(m_scene, (*m_player)->get_pos(), final_dir, m_bullet_texture);
+                    auto* bullet = m_scene.get_game_state().m_obj_mgr.create<object_bullet>(m_scene, (*m_player)->get_pos(), final_dir, m_bullet_texture);
+                    bullet->set_player_owned(true);
                 }
                 m_bullet_clock.restart();
             }

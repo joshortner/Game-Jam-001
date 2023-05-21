@@ -22,7 +22,9 @@ enum class texture
     main_menu_gun_0,
     room,
     bullet,
-    numbers
+    numbers,
+    person,
+    letters
 };
 
 std::string get_texture_path(texture tex);

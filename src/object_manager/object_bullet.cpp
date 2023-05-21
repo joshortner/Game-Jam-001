@@ -2,12 +2,13 @@
 
 namespace bk
 {
-    object_bullet::object_bullet(scene& scene, const sf::Vector2f& pos, const sf::Vector2f& dir, sf::Texture& texture, double lifetime) :
+    object_bullet::object_bullet(scene& scene, const sf::Vector2f& pos, const sf::Vector2f& dir, const sf::Texture& texture, double lifetime) :
         object_itf(scene, object_type::bullet),
         m_direction(dir),
         m_pos(pos),
         m_texture(texture),
-        m_lifetime(lifetime)
+        m_lifetime(lifetime),
+        m_player_owned(false)
     {   }
 
     void object_bullet::on_update(double dt)
