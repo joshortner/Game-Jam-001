@@ -11,7 +11,7 @@ namespace bk
         object_text(scene& scene, const std::string& text, const sf::Texture& texture);
 
         void on_update(double dt) override;
-        void on_render(sf::RenderTarget& target) override;
+        void on_render(sf::RenderTarget& target, render_pass pass) override;
         void on_event(event e) override;
 
         const std::string& get_text() const { return m_text; }

@@ -13,8 +13,10 @@ namespace bk
 
     }
 
-    void object_text::on_render(sf::RenderTarget& target)
+    void object_text::on_render(sf::RenderTarget& target, render_pass pass)
     {
+        if (pass != render_pass::draw) return;
+        
         sf::Sprite sprite(m_texture);
         sprite.setScale(m_scale);
         

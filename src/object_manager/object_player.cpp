@@ -65,8 +65,8 @@ namespace bk
                 m_ammo.setColor(sf::Color::White);
                 m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
                 target.draw(m_ammo);
-            break;
             }
+            break;
           }
         }
     }

@@ -60,8 +60,10 @@ namespace bk
         m_sprite.setPosition(m_position);
     }
 
-    void object_person::on_render(sf::RenderTarget& target) 
+    void object_person::on_render(sf::RenderTarget& target, render_pass pass) 
     {
+        if (pass != render_pass::draw) return;
+        
         target.draw(m_sprite);
     }
 
