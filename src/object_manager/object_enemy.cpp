@@ -43,7 +43,7 @@ namespace bk
         if (clock.getElapsedTime().asSeconds() + random_t_offset / 10.0 > 0.9)
         {
             auto* bullet = m_scene.get_game_state().m_obj_mgr.create<object_bullet>(
-                m_scene, get_pos(), dir, m_bullet_texture
+                m_scene, get_pos(), dir.rotatedBy(sf::radians(((rand() % 1000) / 1000.f * 2.f - 1.f) * 0.1f)), m_bullet_texture
             );
 
             bullet->set_player_owned(false);

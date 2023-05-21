@@ -1,5 +1,8 @@
 #include "object_player.h"
 
+#include "object_bullet.h"
+#include "../scene/scene.h"
+
 #include <iostream>
 
 namespace bk
@@ -11,6 +14,7 @@ namespace bk
         rect.setFillColor(sf::Color::Red);
         rect.setSize({ 16.f, 16.f });
         rect.setOrigin({ rect.getSize().x / 2.f, rect.getSize().y / 2.f });
+        set_z(-400);
     }
 
     // movement is 
@@ -37,37 +41,24 @@ namespace bk
         m_velocity += a * (float)dt;
 
         rect.move(m_velocity * (float)dt);
+
+        std::vector<object_bullet*> bullets;
+        m_scene.get_game_state().m_obj_mgr.get_object_type(bullets);
+        for (auto* bullet : bullets)
+        {
+            if (rect.getGlobalBounds().contains(bullet->get_pos()) && !bullet->get_player_owned())
+            {
+                m_scene.get_game_state().m_obj_mgr.remove_object(bullet);
+                hp -= 0.05;
+            }
+        }
     }
 
     void object_player::on_render(sf::RenderTarget& target, render_pass pass)
     {
         switch (pass)
         {
-          case render_pass::draw:
-          {  
-            target.draw(rect);
-
-            std::string bullet_string = std::to_string(bullets);
-
-            uint32_t i = 0;
-            for (const auto& c : bullet_string)
-            {
-                int32_t num = (c - '0') - 1;
-                if (num < 0) num = 9;
-
-                m_ammo.setTextureRect(sf::IntRect({ 0, 16 * num }, { 16, 16 }));
-
-                m_ammo.setColor(sf::Color::Black);
-                m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i * 10, 0));
-                m_ammo.move(sf::Vector2f(2, 2));
-                target.draw(m_ammo);
-
-                m_ammo.setColor(sf::Color::White);
-                m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
-                target.draw(m_ammo);
-            }
-            break;
-          }
+            case render_pass::draw: draw_pass(target); break;
         }
     }
 
@@ -93,6 +84,53 @@ namespace bk
             case sf::Keyboard::A: m_movement[2] = 0; break;
             case sf::Keyboard::D: m_movement[3] = 0; break;
             }
+        }
+    }
+
+    void object_player::draw_pass(sf::RenderTarget& target)
+    {
+        target.draw(rect);
+
+        sf::RectangleShape health_bar;
+        health_bar.setFillColor(sf::Color::Red);
+        health_bar.setSize(sf::Vector2f(16 * 10, 16));
+        health_bar.setOrigin(sf::Vector2f(
+            0,
+            health_bar.getSize().y / 2.f
+        ));
+        health_bar.setPosition(m_scene.get_view().getCenter() - (sf::Vector2f)target.getSize() / 2.f);
+        health_bar.move(sf::Vector2f(
+            (float)target.getSize().x / 2.f - health_bar.getSize().x / 2.f,
+            (float)target.getSize().y - 13
+        ));
+        health_bar.setOutlineThickness(2.f);
+        health_bar.setOutlineColor(sf::Color::Black);
+        target.draw(health_bar);
+
+        health_bar.setOutlineThickness(0.f);
+        health_bar.setScale(sf::Vector2f(hp, 1));
+        health_bar.setFillColor(sf::Color::Green);
+        target.draw(health_bar);
+
+        
+        std::string bullet_string = std::to_string(bullets);
+
+        uint32_t i = 0;
+        for (const auto& c : bullet_string)
+        {
+            int32_t num = (c - '0') - 1;
+            if (num < 0) num = 9;
+
+            m_ammo.setTextureRect(sf::IntRect({ 0, 16 * num }, { 16, 16 }));
+
+            m_ammo.setColor(sf::Color::Black);
+            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i * 10, 0));
+            m_ammo.move(sf::Vector2f(2, 2));
+            target.draw(m_ammo);
+
+            m_ammo.setColor(sf::Color::White);
+            m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
+            target.draw(m_ammo);
         }
     }
 }

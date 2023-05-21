@@ -25,6 +25,8 @@ namespace bk
         TYPE_ENUM(object_type::player);
 
     private:
+        void draw_pass(sf::RenderTarget& target);
+
         sf::Sprite m_ammo;
 
         std::bitset<4> m_movement;
@@ -34,6 +36,7 @@ namespace bk
         sf::Vector2f m_move_dir;
         sf::RectangleShape rect;
 
+        float hp = 1.f;
         uint32_t bullets = 100;
     };  
 }
