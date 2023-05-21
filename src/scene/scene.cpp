@@ -50,7 +50,19 @@ namespace bk
 
     void scene::render_objects()
     {
-        m_game_state.m_obj_mgr.on_render(m_surface);
+        /*
+        const char *shader_src = BK_SHADER(
+        void main()
+        {
+            int var = 0;
+        });
+
+        sf::Shader shader;
+        BK_ASSERT(shader.loadFromMemory(shader_src, sf::Shader::Fragment), "Unable to load shader");
+        */
+
+        m_game_state.m_obj_mgr.on_render(m_surface, render_pass::draw);
+
         m_surface.display();
     }
 

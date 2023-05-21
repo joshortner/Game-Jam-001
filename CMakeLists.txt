@@ -39,6 +39,7 @@ target_include_directories(
     PUBLIC
     # deps
     deps/sfml/include
+    deps/SimplexNoise/src
 
     # bullet killer
     src
@@ -49,6 +50,8 @@ target_include_directories(
     src/event
     src/systems
 )
+
+add_library(noise deps/SimplexNoise/src/SimplexNoise.cpp)
 
 # Do a for each loop here
 set(SFML_LIBRARIES)
@@ -72,6 +75,7 @@ endif()
 target_link_libraries(
     ${PROJECT_NAME}
     ${SFML_LIBRARIES}
+    noise
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DBK_ASSET_DIR="${CMAKE_CURRENT_SOURCE_DIR}/assets")

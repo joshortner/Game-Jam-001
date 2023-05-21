@@ -1,6 +1,7 @@
 #pragma once
 
 #include "object_player.h"
+#include "bullet_killer.h"
 
 namespace bk
 {
@@ -11,7 +12,7 @@ namespace bk
         object_enemy(scene& scene, object_player* player, const sf::Vector2f& pos, const sf::Texture& bullet_texture);
 
         void on_update(double dt) override;
-        void on_render(sf::RenderTarget& target) override;
+        void on_render(sf::RenderTarget& target, render_pass pass) override;
         void on_event(event e) override;
 
         sf::Vector2f get_pos() const { return m_rect.getPosition(); }

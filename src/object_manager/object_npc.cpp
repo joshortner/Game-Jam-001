@@ -21,11 +21,18 @@ namespace bk
         
     } 
 
-    void object_npc::on_render(sf::RenderTarget& target) 
+    void object_npc::on_render(sf::RenderTarget& target, render_pass pass) 
     {
-        m_rect.setSize(m_scale);
-        m_rect.setPosition(m_position);
-        target.draw(m_rect);
+        switch (pass)
+        {
+            case render_pass::draw:
+            {
+                m_rect.setSize(m_scale);
+                m_rect.setPosition(m_position);
+                target.draw(m_rect);
+                break;
+            }
+        }
     }
 
     void object_npc::on_event(event e)

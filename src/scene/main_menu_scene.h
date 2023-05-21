@@ -3,6 +3,8 @@
 #include "scene.h"
 #include "hover_system.h"
 
+#include <SFML/Graphics.hpp>
+
 namespace bk
 {
 
@@ -17,6 +19,9 @@ public:
 
 private:
     hover_system m_hover_system;
+    sf::Texture m_start_button_on;
+    sf::Texture m_start_button_off;
+    sf::Texture m_gun_0;
 };
 
 }

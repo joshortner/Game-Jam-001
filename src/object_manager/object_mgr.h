@@ -1,7 +1,8 @@
 #pragma once
 
-#include "object_npc.h"
+#include "object_itf.h"
 #include "event.h"
+#include "bullet_killer.h"
 
 #include <SFML/Graphics.hpp>
 #include <stdint.h>
@@ -20,7 +21,7 @@ public:
     ~object_mgr();
     
     void on_update(double dt);
-    void on_render(sf::RenderTarget& target);
+    void on_render(sf::RenderTarget& target, render_pass pass);
     void on_event(event e);
 
     void remove_object(object_itf* object);

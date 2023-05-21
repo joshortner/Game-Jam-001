@@ -1,6 +1,9 @@
 #include "application.h"
 #include "bullet_killer.h"
-#include "../scene/scene.h"
+#include "scene.h"
+#include "common.h"
+
+#include <SFML/Graphics.hpp>
 
 #include <stdio.h>
 
@@ -20,6 +23,7 @@ namespace bk
         m_scenes({ start_scene })
     {
         m_window.setFramerateLimit(60);
+        BK_ASSERT(sf::Shader::isAvailable(), "Shaders not supported");
     }
 
     application::~application()

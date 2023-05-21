@@ -10,9 +10,9 @@ namespace bk
     public:
         object_bullet(scene& scene, const sf::Vector2f& pos, const sf::Vector2f& dir, const sf::Texture& texture, double lifetime = 10.0);
         virtual ~object_bullet() = default;
-
+        
         virtual void on_update(double dt) override;
-        void on_render(sf::RenderTarget& target);
+        void on_render(sf::RenderTarget& target, render_pass pass);
         void on_event(event e);
 
         void set_player_owned(bool player_owned) { m_player_owned = player_owned; }

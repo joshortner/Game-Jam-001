@@ -2,6 +2,7 @@
 #include "bullet_killer.h"
 #include "common.h"
 
+#include <SimplexNoise.h>
 #include <SFML/Graphics.hpp>
 
 #include <stdio.h>
@@ -24,20 +25,70 @@ void object_button::on_event(event e)
 
 // --------- Main Menu Start Button ---------- //
 
-object_button_mm_start::object_button_mm_start(scene &scene) :
-    object_button(scene)
+object_button_mm_start::object_button_mm_start(
+    scene &scene,
+    sf::Texture *p_on,
+    sf::Texture *p_off
+) : object_button(scene), mp_button_on(p_on), mp_button_off(p_off), m_on(false)
 {
-    BK_ASSERT(m_texture.loadFromFile(get_texture_path(texture::start_button)), "Unable to load texture");
-    m_position = { 100, 100 };
-    m_scale = { 0.15f, 0.15f };
+    BK_ASSERT(mp_button_on, "nullptr");
+    BK_ASSERT(mp_button_off, "nullptr");
+
+    m_position = { 350, 225 };
+    m_scale = { 1.5f, 1.5f };
 }
 
-void object_button_mm_start::on_render(sf::RenderTarget& target) 
+void object_button_mm_start::on_update(double dt) 
 {
-    sf::Sprite sprite(m_texture);
+    float scale       = 100.f;    
+    float lacunarity  = 1.99f;
+    float persistance = 0.5f;
+    static const SimplexNoise simplex(0.1f/scale, 0.5f, lacunarity, persistance); // Amplitude of 0.5 for the 1st octave : sum ~1.0f
+    static const int octaves = static_cast<int>(5 + std::log(scale)); // Estimate number of octaves needed for the current scale
+
+    static double ms_passed = 0.0f;
+    ms_passed += dt;
+
+    float perlin = simplex.noise(ms_passed) + 0.5f;
+    static bool last_hover = m_is_hovered;
+
+    if (m_is_hovered) {
+        if (last_hover != m_is_hovered) {
+            m_on = true;
+        }
+        else { 
+            if (perlin >= 0.0f) {
+                m_on = !m_on;
+            }
+        }
+    }
+    else {
+        m_on = false;
+    }
+
+    last_hover = m_is_hovered;
+}
+
+void object_button_mm_start::on_render(sf::RenderTarget& target, render_pass pass) 
+{
+    switch (pass)
+    {
+        case render_pass::draw:
+        {
+            sf::Texture *p_texture = m_on ? mp_button_on : mp_button_off;
+            sf::Sprite start_sprite(*p_texture);
+            target.draw(start_sprite);
+            break;
+        }
+    }
+}
+
+sf::FloatRect object_button_mm_start::get_bounding_box() const 
+{
+    sf::Sprite sprite(*mp_button_on);
     sprite.setPosition(m_position);
     sprite.setScale(m_scale);
-    target.draw(sprite);
+    return sprite.getGlobalBounds();
 }
 
 void object_button_mm_start::on_click() 

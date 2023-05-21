@@ -22,8 +22,7 @@ void hover_system::on_update(double dt)
     sf::Vector2f scaled_mouse((float)mouse_position.x / scale.x, (float)mouse_position.y / scale.y);
     
     for (object_itf* p_obj : objects) {
-        sf::FloatRect rect(p_obj->m_position, p_obj->m_scale);
-        p_obj->set_hovered(rect.contains(scaled_mouse));
+        p_obj->set_hovered(p_obj->get_bounding_box().contains(scaled_mouse));
     }
 }
 

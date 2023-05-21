@@ -71,23 +71,30 @@ namespace bk
         m_rect.move(m_velocity * (float)dt);
     }
 
-    void object_enemy::on_render(sf::RenderTarget& target) 
+    void object_enemy::on_render(sf::RenderTarget& target, render_pass pass) 
     {
-        target.draw(m_rect);
+        switch (pass)
+        {
+            case render_pass::draw:
+            {
+                target.draw(m_rect);
 
-        sf::RectangleShape health;
-        health.setSize(sf::Vector2f(16.f, 4.f));
-        health.setFillColor(sf::Color::Red);
-        health.setPosition(m_rect.getPosition());
-        health.setOutlineThickness(1.f);
-        health.setOutlineColor(sf::Color::Black);
-        health.move(sf::Vector2f(0, -7 + hp_offset));
-        target.draw(health);
+                sf::RectangleShape health;
+                health.setSize(sf::Vector2f(16.f, 4.f));
+                health.setFillColor(sf::Color::Red);
+                health.setPosition(m_rect.getPosition());
+                health.setOutlineThickness(1.f);
+                health.setOutlineColor(sf::Color::Black);
+                health.move(sf::Vector2f(0, -7 + hp_offset));
+                target.draw(health);
 
-        health.setOutlineThickness(0.f);
-        health.setScale(sf::Vector2f(hp, 1));
-        health.setFillColor(sf::Color::Green);
-        target.draw(health);
+                health.setOutlineThickness(0.f);
+                health.setScale(sf::Vector2f(hp, 1));
+                health.setFillColor(sf::Color::Green);
+                target.draw(health);
+                break;
+            }
+        }
     }
 
     void object_enemy::on_event(event e) 

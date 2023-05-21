@@ -2,6 +2,8 @@
 
 #include "object_itf.h"
 
+#include "bullet_killer.h"
+
 namespace bk
 {
     class object_room :
@@ -12,7 +14,7 @@ namespace bk
         ~object_room() = default;
 
         void on_update(double dt);
-        void on_render(sf::RenderTarget& target);
+        void on_render(sf::RenderTarget& target, render_pass pass);
         void on_event(event e);
 
         sf::Vector2i map_coordinates() { return m_coordinates; }
