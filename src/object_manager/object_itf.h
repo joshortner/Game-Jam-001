@@ -1,6 +1,7 @@
 #pragma once
 
 #include "event.h"
+#include "bullet_killer.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -32,8 +33,9 @@ public:
     float get_z() const { return m_z; }
 
     virtual void on_update(double dt) = 0;
-    virtual void on_render(sf::RenderTarget& target) = 0;
+    virtual void on_render(sf::RenderTarget& target, render_pass pass) = 0;
     virtual void on_event(event e) = 0;
+    virtual sf::FloatRect get_bounding_box() const { return sf::FloatRect(m_position, m_scale); }
 
     void set_hovered(bool is_hovered) { m_is_hovered = is_hovered; }
 

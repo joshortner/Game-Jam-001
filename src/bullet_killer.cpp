@@ -7,8 +7,9 @@ namespace bk
 {
 
 static inline const char * const g_texture_files_table[] = {
-    "container.jpg",
-    "start_button.png",
+    "main_menu_start_on.png",
+    "main_menu_start_off.png",
+    "main_menu_gun_0.png",
     "room.png",
     "bullet.png"
 };

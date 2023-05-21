@@ -38,9 +38,12 @@ namespace bk
         rect.move(m_velocity * (float)dt);
     }
 
-    void object_player::on_render(sf::RenderTarget& target)
+    void object_player::on_render(sf::RenderTarget& target, render_pass pass)
     {
-        target.draw(rect);
+        switch (pass)
+        {
+            case render_pass::draw: target.draw(rect); break;
+        }
     }
 
     void object_player::on_event(event e)

@@ -1,19 +1,25 @@
 #pragma once
 
-#include "./scene/scene.h"
-#include "./application/application.h"
-
 #include <string>
+
+#define BK_SHADER(EXP) #EXP 
 
 namespace bk
 {
+
+enum class render_pass
+{
+    draw,
+    bloom
+};
 
 static inline const char * TEXTURE_DIR = "textures";
 
 enum class texture
 {
-    container,
-    start_button,
+    start_button_on,
+    start_button_off,
+    main_menu_gun_0,
     room,
     bullet
 };

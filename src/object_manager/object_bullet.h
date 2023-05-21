@@ -11,7 +11,7 @@ namespace bk
         object_bullet(scene& scene, const sf::Vector2f& pos, const sf::Vector2f& dir, sf::Texture& texture);
 
         void on_update(double dt);
-        void on_render(sf::RenderTarget& target);
+        void on_render(sf::RenderTarget& target, render_pass pass);
         void on_event(event e);
 
     private:

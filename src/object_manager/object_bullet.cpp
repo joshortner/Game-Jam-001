@@ -14,12 +14,19 @@ namespace bk
         m_pos += m_direction * 500.f * (float)dt;
     }
 
-    void object_bullet::on_render(sf::RenderTarget& target)
+    void object_bullet::on_render(sf::RenderTarget& target, render_pass pass)
     {
-        sf::Sprite bullet(m_texture);
-        bullet.setPosition(m_pos);
-        bullet.setRotation(sf::radians(atan2f(m_direction.y, m_direction.x)));
-        target.draw(bullet);
+        switch (pass)
+        {
+            case render_pass::draw:
+            {
+                sf::Sprite bullet(m_texture);
+                bullet.setPosition(m_pos);
+                bullet.setRotation(sf::radians(atan2f(m_direction.y, m_direction.x)));
+                target.draw(bullet);
+                break;
+            }
+        }
     }
 
     void object_bullet::on_event(event e)

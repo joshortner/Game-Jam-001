@@ -1,12 +1,10 @@
 #include "test_scene.h"
-
-#include <iostream>
-
+#include "object_npc.h"
 #include "../animation/node_interpolates.h"
-
 #include "../object_manager/object_room.h"
 #include "../object_manager/object_player.h"
 
+#include <iostream>
 
 namespace bk
 {
