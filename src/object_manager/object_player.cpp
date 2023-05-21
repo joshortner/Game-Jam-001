@@ -1,12 +1,120 @@
 #include "object_player.h"
 
-#include "object_bullet.h"
+//#include "object_bullet.h"
 #include "../scene/scene.h"
+#include "../application/application.h"
 
 #include <iostream>
 
 namespace bk
 {
+    object_player::object_player(scene& scene, flecs::world& world) :
+        m_player(world.entity()),
+        m_scene(scene)
+    {
+        m_player.set(component::transform{ 
+                .position = { 0, 0 },
+                .scale = { 1, 1 },
+                .rotation = 0
+            })
+            .set(component::velocity{ 
+                .x = 0, 
+                .y = 0 
+            })
+            .set(component::force{ 
+                .m = 1,
+                .x = 0,
+                .y = 0,
+                .k = 5.f,
+                .max_velocity = 1000.f
+             })
+            .set(component::rectangle {
+                .width = 16,
+                .height = 16,
+                .color = sf::Color::Red
+            }).set(component::ammo {
+                .count = 100
+            })
+            .set(component::hp{
+                .value = 1,
+                .max = 1
+            })
+            .add<component::player>();
+    }
+
+    void object_player::on_update(double dt, flecs::world& world)
+    {
+        const float m = 1.f;
+        auto position  = m_player.get<component::transform>()->position;
+        auto new_force = *m_player.get<component::force>();
+        
+        new_force.x = 0; new_force.y = 0;
+        const float mag = new_force.max_velocity * new_force.k;
+        if (m_input[0]) new_force.y -= mag;
+        if (m_input[1]) new_force.y += mag;
+        if (m_input[2]) new_force.x -= mag;
+        if (m_input[3]) new_force.x += mag;
+        m_player.set<component::force>(new_force);
+
+        if (m_input[4] && clock.getElapsedTime().asSeconds() >= 0.06) 
+        {
+            // get direction from position to mouse
+            const sf::Vector2i mouse_position = sf::Mouse::getPosition(application::get().get_window());
+            const sf::Vector2f scale = application::get().get_scale(m_scene);
+            const sf::Vector2f scaled_mouse((float)mouse_position.x / scale.x, (float)mouse_position.y / scale.y);
+            const sf::Vector2f diff = m_scene.get_view().getCenter() - (sf::Vector2f)m_scene.get_size() / 2.f;
+            const sf::Vector2f player_pos = sf::Vector2f(position.x, position.y);
+            const sf::Vector2f dir = (scaled_mouse - (player_pos - diff)).normalized();
+
+            auto bullet = world.entity();
+            bullet.set(component::transform {
+                .position = position,
+                .scale = { 1, 1 },
+                .rotation = atan2f(dir.y, dir.x)
+            })
+            .set(component::velocity {
+                .x = dir.x * 300.f,
+                .y = dir.y * 300.f
+            })
+            .set(component::sprite {
+                .texture = m_scene.get_texture(texture::bullet)
+            });
+
+            clock.restart();
+        }
+    }
+
+    void object_player::on_event(bk::event e)
+    {
+        if (e.m_type == event_type::key_press)
+        {
+            switch (e.m_key.code)
+            {
+            case sf::Keyboard::W: m_input[0] = 1; break;
+            case sf::Keyboard::S: m_input[1] = 1; break;
+            case sf::Keyboard::A: m_input[2] = 1; break;
+            case sf::Keyboard::D: m_input[3] = 1; break;
+            case sf::Keyboard::R: m_player.set([](component::ammo& ammo){ ammo.count = 100; }); break;
+            }
+        }
+        else if (e.m_type == event_type::key_release)
+        {
+            switch (e.m_key.code)
+            {
+            case sf::Keyboard::W: m_input[0] = 0; break;
+            case sf::Keyboard::S: m_input[1] = 0; break;
+            case sf::Keyboard::A: m_input[2] = 0; break;
+            case sf::Keyboard::D: m_input[3] = 0; break;
+            }
+        }
+
+        if (e.m_type == event_type::mouse_button_pressed)
+            if (e.m_mouse_button.button == sf::Mouse::Button::Left) m_input[4] = 1;
+        if (e.m_type == event_type::mouse_button_released)
+            if (e.m_mouse_button.button == sf::Mouse::Button::Left) m_input[4] = 0;
+    }
+    
+    /*
     object_player::object_player(scene& scene, const sf::Texture& bullet) :
         object_itf(scene, object_type::player),
         m_ammo(bullet)
@@ -132,5 +240,5 @@ namespace bk
             m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
             target.draw(m_ammo);
         }
-    }
+    }*/
 }

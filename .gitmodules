@@ -4,3 +4,6 @@
 [submodule "deps/SimplexNoise"]
 	path = deps/SimplexNoise
 	url = https://github.com/SRombauts/SimplexNoise.git
+[submodule "deps/flecs"]
+	path = deps/flecs
+	url = https://github.com/SanderMertens/flecs

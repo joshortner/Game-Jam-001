@@ -5,6 +5,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
+add_subdirectory(deps/flecs)
+
 project(bullet_killer)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -12,26 +14,29 @@ add_executable(
     ${PROJECT_NAME}
     src/main.cpp
     src/bullet_killer.cpp
-    src/object_manager/object_npc.cpp
-    src/object_manager/object_mgr.cpp
+    #src/object_manager/object_npc.cpp
+    #src/object_manager/object_mgr.cpp
     src/object_manager/object_player.cpp
-    src/object_manager/object_button.cpp
-    src/object_manager/object_room.cpp
-    src/object_manager/object_bullet.cpp
-    src/object_manager/object_enemy.cpp
-    src/object_manager/object_person.cpp
-    src/object_manager/object_text.cpp
+    #src/object_manager/object_button.cpp
+    #src/object_manager/object_room.cpp
+    #src/object_manager/object_bullet.cpp
+    #src/object_manager/object_enemy.cpp
+    #src/object_manager/object_person.cpp
+    #src/object_manager/object_text.cpp
     src/application/application.cpp
     src/animation/animation_system.cpp
     src/animation/node_interface.cpp
-    src/systems/hover_system.cpp
-    src/systems/bullet_system.cpp
-    src/systems/room_system.cpp
+    #src/systems/hover_system.cpp
+    #src/systems/bullet_system.cpp
+    #src/systems/room_system.cpp
+    src/systems/physics_system.cpp
+    src/systems/enemy_system.cpp
 
     # Scenes
     src/scene/scene.cpp
-    src/scene/test_scene.cpp
-    src/scene/main_menu_scene.cpp
+    #src/scene/test_scene.cpp
+    #src/scene/main_menu_scene.cpp
+    src/scene/ecs_scene.cpp
 )
 
 target_include_directories(
@@ -40,6 +45,7 @@ target_include_directories(
     # deps
     deps/sfml/include
     deps/SimplexNoise/src
+    deps/flecs/include
 
     # bullet killer
     src
@@ -75,6 +81,7 @@ endif()
 target_link_libraries(
     ${PROJECT_NAME}
     ${SFML_LIBRARIES}
+    flecs::flecs_static
     noise
 )
 

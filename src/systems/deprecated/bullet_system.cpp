@@ -33,9 +33,7 @@ namespace bk
                 sf::Vector2i mouse_position = sf::Mouse::getPosition(application::get().get_window());
                 sf::Vector2f scale = application::get().get_scale(m_scene);
                 sf::Vector2f scaled_mouse((float)mouse_position.x / scale.x, (float)mouse_position.y / scale.y);
-
                 sf::Vector2f diff = m_scene.get_view().getCenter() - (sf::Vector2f)m_scene.get_size() / 2.f;
-
                 sf::Vector2f dir = (scaled_mouse - ((*m_player)->get_pos() - diff)).normalized();
 
                 for (int i = -1; i <= 1 && (*m_player)->get_bullets(); i++)
