@@ -21,7 +21,8 @@ enum class texture
     start_button_off,
     main_menu_gun_0,
     room,
-    bullet
+    bullet,
+    numbers
 };
 
 std::string get_texture_path(texture tex);

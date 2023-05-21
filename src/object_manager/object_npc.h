@@ -17,6 +17,8 @@ public:
     void on_render(sf::RenderTarget& target, render_pass pass) override;
     void on_event(event e) override;
 
+    TYPE_ENUM(object_type::npc);
+
 private:
     sf::RectangleShape m_rect;
 };
