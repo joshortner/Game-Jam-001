@@ -62,6 +62,7 @@ namespace bk
             // ... but render every other scene
             for (auto* scene : m_scenes)
             {
+                scene->clear_surfaces();
                 scene->on_render();
                 scene->render_objects();
 
@@ -69,6 +70,8 @@ namespace bk
                     (float)m_window.getSize().x / (float)scene->get_size().x,
                     (float)m_window.getSize().y / (float)scene->get_size().y
                 );
+
+                scene->do_post_processing();
 
                 sf::Sprite surface(scene->get_texture());                
                 surface.setScale(scale);

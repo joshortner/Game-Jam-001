@@ -34,8 +34,8 @@ object_button_mm_start::object_button_mm_start(
     BK_ASSERT(mp_button_on, "nullptr");
     BK_ASSERT(mp_button_off, "nullptr");
 
-    m_position = { 350, 225 };
-    m_scale = { 1.5f, 1.5f };
+    m_position = { 300, 275 };
+    m_scale = { 2.5f, 2.5f };
 }
 
 void object_button_mm_start::on_update(double dt) 
@@ -74,9 +74,12 @@ void object_button_mm_start::on_render(sf::RenderTarget& target, render_pass pas
     switch (pass)
     {
         case render_pass::draw:
+        case render_pass::bloom:
         {
             sf::Texture *p_texture = m_on ? mp_button_on : mp_button_off;
             sf::Sprite start_sprite(*p_texture);
+            start_sprite.setPosition(m_position);
+            start_sprite.setScale(m_scale);
             target.draw(start_sprite);
             break;
         }

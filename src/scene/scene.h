@@ -23,6 +23,7 @@ namespace bk
     {
     protected:
         sf::RenderTexture m_surface;
+        sf::RenderTexture m_scratch_surface;
         sf::RenderTexture m_bloom_surface;
         sf::View m_view;
 
@@ -45,10 +46,12 @@ namespace bk
 
         void update_objects(double dt);
         void render_objects();
+        void clear_surfaces();
 
         virtual void on_update(double dt) = 0;
         virtual void on_render() { };
         virtual void on_event(event e);
+        virtual void do_post_processing() { }
 
         object_mgr& get_object_manager() { return m_game_state.m_obj_mgr; }
 

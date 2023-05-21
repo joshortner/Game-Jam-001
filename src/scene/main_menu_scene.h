@@ -16,6 +16,7 @@ public:
 
     virtual void on_update(double dt) override;
     virtual void on_render() override;
+    virtual void do_post_processing() override;
 
 private:
     hover_system m_hover_system;

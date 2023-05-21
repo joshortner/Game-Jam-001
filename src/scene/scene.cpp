@@ -11,6 +11,8 @@ namespace bk
         m_dimensions(dimensions)
     {
         BK_ASSERT(m_surface.create(dimensions), "Error creating surface");
+        BK_ASSERT(m_bloom_surface.create(dimensions), "Error creating bloom surface");
+        BK_ASSERT(m_scratch_surface.create(dimensions), "Error creating scratch surface");
         set_view(sf::View((sf::Vector2f)dimensions / 2.f, (sf::Vector2f)dimensions));
     }
 
@@ -41,6 +43,8 @@ namespace bk
     {
         m_view = view;
         m_surface.setView(view);
+        m_bloom_surface.setView(view);
+        m_scratch_surface.setView(view);
     }
 
     void scene::update_objects(double dt)
@@ -50,20 +54,16 @@ namespace bk
 
     void scene::render_objects()
     {
-        /*
-        const char *shader_src = BK_SHADER(
-        void main()
-        {
-            int var = 0;
-        });
-
-        sf::Shader shader;
-        BK_ASSERT(shader.loadFromMemory(shader_src, sf::Shader::Fragment), "Unable to load shader");
-        */
-
         m_game_state.m_obj_mgr.on_render(m_surface, render_pass::draw);
-
+        m_game_state.m_obj_mgr.on_render(m_bloom_surface, render_pass::bloom);
         m_surface.display();
+        m_bloom_surface.display();
+    }
+
+    void scene::clear_surfaces()
+    {
+        m_surface.clear();
+        m_bloom_surface.clear();
     }
 
     void scene::on_event(event e)
