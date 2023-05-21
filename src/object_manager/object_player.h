@@ -14,7 +14,8 @@ namespace bk
     class scene;
 
     class object_player :
-        public object_itf
+        public component::scriptable_object,
+        public component::input_object
     {
     public:
         object_player(scene& scene, flecs::world& world);

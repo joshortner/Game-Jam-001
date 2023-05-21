@@ -50,7 +50,7 @@ namespace bk
         >();
 
         // need to iterate through other enemies to push away
-        f.each([f, player, this](
+        f.each([&world, player, this](
             component::enemy enemy, 
             component::transform& transform, 
             component::force& force, 
@@ -67,6 +67,9 @@ namespace bk
                 transform.position.x,
                 transform.position.y
             )).normalized() * mag;
+
+            // child of 
+            //auto bullets = 
 
             force.x = dir.x;
             force.y = dir.y;

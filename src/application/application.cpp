@@ -49,7 +49,7 @@ namespace bk
                 current_scene = m_scenes.back();
             }
 
-            const auto& objects = current_scene->get_objects();
+            auto inputs = current_scene->get_world().filter<component::input>();
 
             sf::Event event;
             while (m_window.pollEvent(event))
@@ -58,13 +58,17 @@ namespace bk
                 bk::event bk_event = convert_sfml_event(event);
                 current_scene->on_event(bk_event);
 
-                for (auto* object : objects) object->on_event(bk_event);
+                // get all the input components
+                inputs.each([bk_event](const component::input& script)
+                { script.object->on_event(bk_event); });
             }
 
             m_window.clear();
-        
-            for (auto* object : objects)
-                object->on_update(dt, current_scene->get_world());
+
+            // get all the scriptable objects and run their methods
+            auto scriptable = current_scene->get_world().filter<component::scriptable>();
+            scriptable.each([dt, current_scene](const component::scriptable& script)
+            { script.object->on_update(dt, current_scene->get_world()); });
 
             const auto& systems = current_scene->get_systems();
             for (auto* system : systems)

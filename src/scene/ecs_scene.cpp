@@ -7,15 +7,15 @@
 namespace bk
 {
     ecs_scene::ecs_scene(const sf::Vector2u& dimensions) :
-        scene(dimensions)
+        scene(dimensions),
+        player(*this, m_world)
     {
         get_texture(texture::bullet);
 
         add_system<enemy_system>();
         add_system<physics_system>();
 
-        add_object<object_player>(*this, m_world);
-
+        //add_object<object_player>(*this, m_world);
 
         for (uint32_t i = 0; i < 10; i++)
         {

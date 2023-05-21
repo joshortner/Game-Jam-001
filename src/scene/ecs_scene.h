@@ -14,6 +14,6 @@ namespace bk
         void on_update(double dt) override;
 
     private:
-        //object_player player;
+        object_player player;
     };
 }

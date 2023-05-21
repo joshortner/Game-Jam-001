@@ -73,8 +73,8 @@ namespace bk::component
 
     struct scriptable_object
     {
-        virtual void on_render(sf::RenderTarget&, render_pass) = 0;
-        virtual void on_update(double) = 0;
+        virtual void on_render(sf::RenderTarget&, render_pass) { };
+        virtual void on_update(double, flecs::world&) { };
     };
 
     struct input_object

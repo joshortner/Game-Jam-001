@@ -39,6 +39,12 @@ namespace bk
                 .value = 1,
                 .max = 1
             })
+            .set(component::scriptable {
+                .object = static_cast<component::scriptable_object*>(this)
+            })
+            .set(component::input {
+                .object = static_cast<component::input_object*>(this)
+            })
             .add<component::player>();
     }
 
@@ -46,15 +52,14 @@ namespace bk
     {
         const float m = 1.f;
         auto position  = m_player.get<component::transform>()->position;
-        auto new_force = *m_player.get<component::force>();
+        component::force* force = m_player.get_mut<component::force>();
         
-        new_force.x = 0; new_force.y = 0;
-        const float mag = new_force.max_velocity * new_force.k;
-        if (m_input[0]) new_force.y -= mag;
-        if (m_input[1]) new_force.y += mag;
-        if (m_input[2]) new_force.x -= mag;
-        if (m_input[3]) new_force.x += mag;
-        m_player.set<component::force>(new_force);
+        force->x = 0; force->y = 0;
+        const float mag = force->max_velocity * force->k;
+        if (m_input[0]) force->y -= mag;
+        if (m_input[1]) force->y += mag;
+        if (m_input[2]) force->x -= mag;
+        if (m_input[3]) force->x += mag;
 
         if (m_input[4] && clock.getElapsedTime().asSeconds() >= 0.06) 
         {
@@ -94,7 +99,7 @@ namespace bk
             case sf::Keyboard::S: m_input[1] = 1; break;
             case sf::Keyboard::A: m_input[2] = 1; break;
             case sf::Keyboard::D: m_input[3] = 1; break;
-            case sf::Keyboard::R: m_player.set([](component::ammo& ammo){ ammo.count = 100; }); break;
+            case sf::Keyboard::R: m_player.get_mut<component::ammo>()->count = 100; break;
             }
         }
         else if (e.m_type == event_type::key_release)
