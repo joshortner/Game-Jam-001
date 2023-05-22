@@ -34,8 +34,8 @@ object_button_mm_start::object_button_mm_start(
     BK_ASSERT(mp_button_on, "nullptr");
     BK_ASSERT(mp_button_off, "nullptr");
 
-    m_position = { 300, 275 };
-    m_scale = { 2.5f, 2.5f };
+    m_position = { 325, 285 };
+    m_scale = { 0.15f, 0.10f };
 }
 
 void object_button_mm_start::on_update(double dt) 
@@ -96,8 +96,8 @@ void object_button_mm_start::on_render(sf::RenderTarget& target, render_pass pas
             sf::Texture *p_texture = m_on ? mp_button_on : mp_button_off;
             sf::Sprite start_sprite(*p_texture);
             start_sprite.setColor(sf::Color(255, 255, 255, 100));
-            //start_sprite.setPosition(m_position);
-            //start_sprite.setScale(m_scale);
+            start_sprite.setPosition(m_position);
+            start_sprite.setScale(m_scale);
             target.draw(start_sprite);
         }
     }
@@ -106,8 +106,8 @@ void object_button_mm_start::on_render(sf::RenderTarget& target, render_pass pas
 sf::FloatRect object_button_mm_start::get_bounding_box() const 
 {
     sf::Sprite sprite(*mp_button_on);
-    //sprite.setPosition(m_position);
-    //sprite.setScale(m_scale);
+    sprite.setPosition(m_position);
+    sprite.setScale(m_scale);
     return sprite.getGlobalBounds();
 }
 
