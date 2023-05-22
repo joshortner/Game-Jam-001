@@ -4,6 +4,7 @@
 #include "no_copy.h"
 #include "event.h"
 #include "object_mgr.h"
+#include "bullet_killer.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -21,12 +22,6 @@ namespace bk
         public utility::no_copy,
         public utility::state<scene_state>
     {
-    protected:
-        sf::RenderTexture m_surface;
-        sf::RenderTexture m_scratch_surface;
-        sf::RenderTexture m_bloom_surface;
-        sf::View m_view;
-
     public:
         struct game_state
         {
@@ -47,18 +42,29 @@ namespace bk
         void update_objects(double dt);
         void render_objects();
         void clear_surfaces();
+        void do_post_processing();
+
+        sf::Shader *get_shader(shader s);
 
         virtual void on_update(double dt) = 0;
         virtual void on_render() { };
         virtual void on_event(event e);
-        virtual void do_post_processing() { }
 
         object_mgr& get_object_manager() { return m_game_state.m_obj_mgr; }
-
-    private:
-        const sf::Vector2u m_dimensions;
-
+    
     protected:
         game_state m_game_state;
+        sf::RenderTexture m_surface;
+        sf::RenderTexture m_scratch_surface;
+        sf::RenderTexture m_bloom_surface;
+        sf::View m_view;
+
+    private:
+        void do_bloom_pass();
+
+        const sf::Vector2u m_dimensions;
+
+        std::unordered_map<shader, sf::Shader *> m_shader_table;
+
     };
 }

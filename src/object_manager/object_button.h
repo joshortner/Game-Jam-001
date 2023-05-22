@@ -16,7 +16,7 @@ public:
 
     object_button(scene& scene);
 
-    void on_render(sf::RenderTarget& target, render_pass pass) override { }
+    //void on_render(sf::RenderTarget& target, render_pass pass) override { }
     void on_event(event e) override;
     //virtual sf::FloatRect get_bounding_box() const override { return sf::FloatRect(m_position, m_scale); }
 

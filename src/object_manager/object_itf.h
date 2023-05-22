@@ -19,6 +19,7 @@ enum class object_type
     npc,
     player,
     button,
+    ui,
     room,
     bullet,
     enemy,

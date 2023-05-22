@@ -19,7 +19,8 @@ namespace bk
     }
 
     application::application(const sf::Vector2u& dimensions, scene* const start_scene) :
-        m_window(sf::VideoMode(dimensions), "Bullet Killer"),
+        //m_contextSettings(get_context_settings()),
+        m_window(sf::VideoMode(dimensions), "Bullet Killer", sf::Style::Default, m_contextSettings),
         m_scenes({ start_scene })
     {
         m_window.setFramerateLimit(60);
@@ -28,6 +29,19 @@ namespace bk
 
     application::~application()
     {   }
+
+    sf::ContextSettings application::get_context_settings()
+    {
+        return sf::ContextSettings(
+            0, // depth
+            0, // stencil
+            0, // antialiasing
+            1, // major
+            1, // minor
+            sf::ContextSettings::Default, // attributes
+            false // sRgb
+        );
+    }
 
     void application::run()
     {
