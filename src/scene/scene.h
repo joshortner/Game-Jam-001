@@ -62,15 +62,6 @@ namespace bk
         virtual void on_render() { };
         virtual void on_event(event e);
 
-        // Objects
-        const std::vector<object_itf*>& get_objects() const { return m_objects; }
-        template<typename T, typename... Args>
-        void add_object(Args&... args)
-        {
-            static_assert(std::is_base_of<object_itf, T>::value);
-            m_objects.push_back(new T(args...));
-        }
-
         // Systems
         const std::vector<system*>& get_systems() const { return m_systems; }
         template<typename T> 
@@ -85,7 +76,6 @@ namespace bk
     private:
         std::unordered_map<bk::texture, sf::Texture*> m_textures;
         std::vector<system*> m_systems;
-        std::vector<object_itf*> m_objects;
         const sf::Vector2u m_dimensions;
 
     //protected:

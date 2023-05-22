@@ -21,7 +21,6 @@ namespace bk
             delete (*it).second;
 
         for (auto* system : m_systems) delete system;
-        for (auto* object : m_objects) delete object;
     }
 
     sf::Vector2u scene::get_size() const
