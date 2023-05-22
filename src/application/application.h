@@ -19,6 +19,8 @@ namespace bk
         static application& get() { BK_ASSERT(sp_application != nullptr, "Applicaiton no initialized"); return *sp_application; }
         static void destroy() { delete sp_application; }
 
+        scene& get_current_scene() const { return *m_scenes.back(); }
+
         void run();
         sf::RenderWindow& get_window() { return m_window; }
         sf::Vector2f get_scale(scene& scene) const;

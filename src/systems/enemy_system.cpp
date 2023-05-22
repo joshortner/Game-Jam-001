@@ -92,12 +92,15 @@ namespace bk
             std::vector<flecs::entity> entities;
             entities.reserve(bullets.count());
 
-            bullets.each([rect, &hp, &entities](flecs::entity e, component::bullet bullet, component::transform& transform)
+            bullets.each([rect, &hp, &entities, &velocity](flecs::entity e, component::bullet bullet, component::transform& transform)
             {
                 if (rect.contains(sf::Vector2f(transform.position.x, transform.position.y)))
                 {
                     entities.push_back(e);
                     hp.value -= 0.2f;
+                    auto* velocity_ptr = e.get<component::velocity>();
+                    velocity.x = velocity_ptr->x;
+                    velocity.y = velocity_ptr->y;
                 }
             });
 
@@ -108,7 +111,7 @@ namespace bk
 
             hp.offset = sin(this->m_clock.getElapsedTime().asSeconds());
 
-            if (hp.value <= 0) dead_enemies.push_back(e_enemy);
+            if (hp.value <= 0.01f) dead_enemies.push_back(e_enemy);
         });
 
         for (auto e : dead_enemies) e.destruct();

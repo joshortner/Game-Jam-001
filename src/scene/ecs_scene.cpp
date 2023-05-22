@@ -2,6 +2,7 @@
 
 #include "../systems/enemy_system.h"
 #include "../systems/physics_system.h"
+#include "../systems/bullet_system.h"
 #include "../object_manager/components.h"
 
 namespace bk
@@ -14,6 +15,7 @@ namespace bk
 
         add_system<enemy_system>();
         add_system<physics_system>();
+        add_system<bullet_system>();
 
         //add_object<object_player>(*this, m_world);
 

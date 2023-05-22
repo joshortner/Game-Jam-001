@@ -6,7 +6,7 @@ namespace bk
         m_scene(scene),
         m_player(player)
     {
-
+        
     }
 
     void room_system::on_update(double dt, const sf::Vector2i& map_coordinates)

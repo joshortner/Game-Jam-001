@@ -1,4 +1,4 @@
-#include "../object_manager/object_itf.h"
+//#include "../object_manager/object_itf.h"
 #include "../object_manager/components.h"
 #include "scene.h"
 #include "common.h"
@@ -102,6 +102,10 @@ namespace bk
             sf_rect.setRotation(sf::radians(transform.rotation));
             this->m_surface.draw(sf_rect);
         });
+
+        auto scriptable = get_world().filter<component::scriptable>();
+        scriptable.each([this](component::scriptable& script)
+        { script.object->on_render(this->m_surface, render_pass::draw); });
 
         /*
         const char *shader_src = BK_SHADER(

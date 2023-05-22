@@ -2,7 +2,7 @@
 
 #include <bitset>
 
-#include "object_itf.h"
+//#include "object_itf.h"
 //#include "bullet_killer.h"
 
 #include <flecs.h>
@@ -20,12 +20,13 @@ namespace bk
     public:
         object_player(scene& scene, flecs::world& world);
 
+        void on_render(sf::RenderTarget& target, render_pass pass) override;
         void on_update(double dt, flecs::world& world) override;
         void on_event(bk::event event) override;
 
     private:
         flecs::entity m_player;
-        std::bitset<5> m_input;
+        std::bitset<6> m_input;
         scene& m_scene;
         sf::Clock clock;
     };

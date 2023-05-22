@@ -1,6 +1,6 @@
 #include "application.h"
 #include "bullet_killer.h"
-#include "../object_manager/object_itf.h"
+//#include "../object_manager/object_itf.h"
 #include "scene.h"
 #include "common.h"
 

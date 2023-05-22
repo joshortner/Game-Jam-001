@@ -3,12 +3,19 @@
 #include "../event/event.h"
 #include "../bullet_killer.h"
 #include <SFML/Graphics.hpp>
+#include <flecs.h>
 
 namespace bk::component
 {
     enum class player {};
     enum class enemy {};
     enum class bullet {};
+    enum class room {};
+
+    struct map_position
+    {
+        int32_t x, y;
+    };
 
     struct ammo
     {

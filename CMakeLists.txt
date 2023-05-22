@@ -30,6 +30,8 @@ add_executable(
     #src/systems/bullet_system.cpp
     #src/systems/room_system.cpp
     src/systems/physics_system.cpp
+    src/systems/room_system.cpp
+    src/systems/bullet_system.cpp
     src/systems/enemy_system.cpp
 
     # Scenes
