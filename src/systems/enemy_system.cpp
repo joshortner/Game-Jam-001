@@ -17,6 +17,7 @@ namespace bk
             rect.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
             rect.setRotation(sf::radians(transform.rotation));
             rect.setFillColor(sf::Color::Blue);
+            rect.setOrigin(sf::Vector2f(rect.getSize().x / 2.f, rect.getSize().y / 2.f));
             target.draw(rect);
 
             sf::RectangleShape health;
@@ -26,6 +27,7 @@ namespace bk
             health.setOutlineThickness(1.f);
             health.setOutlineColor(sf::Color::Black);
             health.move(sf::Vector2f(0, -7 + hp.offset));
+            health.move(rect.getOrigin() * -1.f);
             target.draw(health);
 
             health.setOutlineThickness(0.f);
@@ -49,8 +51,12 @@ namespace bk
             component::hp
         >();
 
+        std::vector<flecs::entity> dead_enemies;
+        dead_enemies.reserve(f.count());
+
         // need to iterate through other enemies to push away
-        f.each([&world, player, this](
+        f.each([&world, player, this, &dead_enemies](
+            flecs::entity    e_enemy,
             component::enemy enemy, 
             component::transform& transform, 
             component::force& force, 
@@ -68,13 +74,43 @@ namespace bk
                 transform.position.y
             )).normalized() * mag;
 
-            // child of 
-            //auto bullets = 
+            sf::FloatRect rect;
+            rect.width = 16.f;
+            rect.height = 16.f;
+            rect.left = transform.position.x;
+            rect.top = transform.position.y;
+
+            rect.left -= rect.width / 2.f;
+            rect.top -= rect.height / 2.f;
+
+            // do some collision testing with the bullets
+            auto bullets = world.filter<
+                component::bullet,
+                component::transform
+            >();
+
+            std::vector<flecs::entity> entities;
+            entities.reserve(bullets.count());
+
+            bullets.each([rect, &hp, &entities](flecs::entity e, component::bullet bullet, component::transform& transform)
+            {
+                if (rect.contains(sf::Vector2f(transform.position.x, transform.position.y)))
+                {
+                    entities.push_back(e);
+                    hp.value -= 0.2f;
+                }
+            });
+
+            for (auto e : entities) e.destruct();
 
             force.x = dir.x;
             force.y = dir.y;
 
             hp.offset = sin(this->m_clock.getElapsedTime().asSeconds());
+
+            if (hp.value <= 0) dead_enemies.push_back(e_enemy);
         });
+
+        for (auto e : dead_enemies) e.destruct();
     }
 }

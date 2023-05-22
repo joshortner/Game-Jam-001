@@ -69,7 +69,7 @@ namespace bk
             const sf::Vector2f scaled_mouse((float)mouse_position.x / scale.x, (float)mouse_position.y / scale.y);
             const sf::Vector2f diff = m_scene.get_view().getCenter() - (sf::Vector2f)m_scene.get_size() / 2.f;
             const sf::Vector2f player_pos = sf::Vector2f(position.x, position.y);
-            const sf::Vector2f dir = (scaled_mouse - (player_pos - diff)).normalized();
+            const sf::Vector2f dir = (scaled_mouse - (player_pos - diff)).normalized().rotatedBy(sf::radians(((rand() % 1000) / 1000.f * 2.f - 1.f) * 0.1f));
 
             auto bullet = world.entity();
             bullet.set(component::transform {
@@ -78,12 +78,13 @@ namespace bk
                 .rotation = atan2f(dir.y, dir.x)
             })
             .set(component::velocity {
-                .x = dir.x * 300.f,
-                .y = dir.y * 300.f
+                .x = dir.x * 400.f,
+                .y = dir.y * 400.f
             })
             .set(component::sprite {
                 .texture = m_scene.get_texture(texture::bullet)
-            });
+            })
+            .add<component::bullet>();
 
             clock.restart();
         }

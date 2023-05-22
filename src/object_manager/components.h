@@ -8,6 +8,7 @@ namespace bk::component
 {
     enum class player {};
     enum class enemy {};
+    enum class bullet {};
 
     struct ammo
     {
