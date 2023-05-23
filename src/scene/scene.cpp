@@ -231,10 +231,11 @@ namespace bk
         }
 
         // 3) Additive blending
+        /*
         sf::Sprite final_sprite(m_surface.getTexture());
         p_bloom_final->setUniform("u_scene_texture", m_surface.getTexture());
         p_bloom_final->setUniform("u_bloom_texture", m_scratch_surface.getTexture());
         p_bloom_final->setUniform("u_exposure", 1.0f);
-        m_surface.draw(final_sprite, p_bloom_final);
+        m_surface.draw(final_sprite, p_bloom_final);*/
     }
 }
