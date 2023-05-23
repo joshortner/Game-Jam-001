@@ -15,5 +15,6 @@ namespace bk
 
     private:
         object_player player;
+        sf::Vector2f  camera_pos;
     };
 }

@@ -66,6 +66,7 @@ namespace bk
             m_window.clear();
 
             // get all the scriptable objects and run their methods
+            current_scene->on_update(dt);
             auto scriptable = current_scene->get_world().filter<component::scriptable>();
             scriptable.each([dt, current_scene](const component::scriptable& script)
             { script.object->on_update(dt, current_scene->get_world()); });

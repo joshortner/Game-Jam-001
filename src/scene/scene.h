@@ -64,10 +64,10 @@ namespace bk
 
         // Systems
         const std::vector<system*>& get_systems() const { return m_systems; }
-        template<typename T> 
-        void add_system()
+        template<typename T, typename... Args> 
+        void add_system(Args&&... args)
         {
-            m_systems.push_back(new T());
+            m_systems.push_back(new T(args...));
         }
 
         flecs::world& get_world() { return m_world; }

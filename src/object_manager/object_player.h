@@ -24,6 +24,8 @@ namespace bk
         void on_update(double dt, flecs::world& world) override;
         void on_event(bk::event event) override;
 
+        flecs::entity get_entity() const { return m_player; }
+
     private:
         flecs::entity m_player;
         std::bitset<6> m_input;
