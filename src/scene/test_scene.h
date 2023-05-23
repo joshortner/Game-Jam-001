@@ -15,9 +15,9 @@ class test_scene :
 public:
     test_scene(const sf::Vector2u& dimensions);
 
-    void on_update(double dt) override;
-    void on_render() override;
-    void on_event(event event) override;
+    virtual void on_update(double dt) override;
+    virtual void on_render() override;
+    virtual void on_event(event event) override;
 
 private:
     sf::Texture m_bullet_texture;

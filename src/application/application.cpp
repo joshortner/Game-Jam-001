@@ -22,7 +22,8 @@ namespace bk
     }
 
     application::application(const sf::Vector2u& dimensions, scene* const start_scene) :
-        m_window(sf::VideoMode(dimensions), "Bullet Killer"),
+        //m_contextSettings(get_context_settings()),
+        m_window(sf::VideoMode(dimensions), "Bullet Killer", sf::Style::Default, m_contextSettings),
         m_scenes({ start_scene })
     {
         m_window.setFramerateLimit(60);
@@ -31,6 +32,19 @@ namespace bk
 
     application::~application()
     {   }
+
+    sf::ContextSettings application::get_context_settings()
+    {
+        return sf::ContextSettings(
+            0, // depth
+            0, // stencil
+            0, // antialiasing
+            1, // major
+            1, // minor
+            sf::ContextSettings::Default, // attributes
+            false // sRgb
+        );
+    }
 
     void application::run()
     {
@@ -78,7 +92,8 @@ namespace bk
             // ... but render every other scene
             for (auto* scene : m_scenes)
             {
-                //scene->on_render();
+                scene->clear_surfaces();
+                scene->on_render();
                 scene->render_objects();
                 const auto& systems = scene->get_systems();
                 for (auto* system : systems)
@@ -88,6 +103,8 @@ namespace bk
                     (float)m_window.getSize().x / (float)scene->get_size().x,
                     (float)m_window.getSize().y / (float)scene->get_size().y
                 );
+
+                scene->do_post_processing();
 
                 sf::Sprite surface(scene->get_texture());                
                 surface.setScale(scale);

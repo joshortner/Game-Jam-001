@@ -3,7 +3,8 @@
 #include "state.h"
 #include "no_copy.h"
 #include "event.h"
-//#include "object_mgr.h"
+
+#include "bullet_killer.h"
 
 #include "../bullet_killer.h"
 #include "../systems/system.h"
@@ -29,7 +30,14 @@ namespace bk
     protected:
         sf::RenderTexture m_surface;
         sf::RenderTexture m_bloom_surface;
+        sf::RenderTexture m_scratch_surface;
+
+        std::unordered_map<shader, sf::Shader *> m_shader_table;
+
         sf::View m_view;
+        std::unordered_map<bk::texture, sf::Texture*> m_textures;
+        std::vector<system*> m_systems;
+        const sf::Vector2u m_dimensions;
 
         flecs::world m_world; // container for all entities
 
@@ -57,6 +65,10 @@ namespace bk
         // Unsure if these are necissary
         void update_objects(double dt);
         void render_objects();
+        void clear_surfaces();
+        void do_post_processing();
+
+        sf::Shader *get_shader(shader s);
 
         virtual void on_update(double dt) = 0;
         virtual void on_render() { };
@@ -74,11 +86,6 @@ namespace bk
         //object_mgr& get_object_manager() { return m_game_state.m_obj_mgr; }
 
     private:
-        std::unordered_map<bk::texture, sf::Texture*> m_textures;
-        std::vector<system*> m_systems;
-        const sf::Vector2u m_dimensions;
-
-    //protected:
-        //game_state m_game_state;
+        void do_bloom_pass();
     };
 }

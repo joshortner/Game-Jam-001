@@ -34,8 +34,8 @@ object_button_mm_start::object_button_mm_start(
     BK_ASSERT(mp_button_on, "nullptr");
     BK_ASSERT(mp_button_off, "nullptr");
 
-    m_position = { 350, 225 };
-    m_scale = { 1.5f, 1.5f };
+    m_position = { 325, 285 };
+    m_scale = { 0.15f, 0.10f };
 }
 
 void object_button_mm_start::on_update(double dt) 
@@ -46,19 +46,35 @@ void object_button_mm_start::on_update(double dt)
     static const SimplexNoise simplex(0.1f/scale, 0.5f, lacunarity, persistance); // Amplitude of 0.5 for the 1st octave : sum ~1.0f
     static const int octaves = static_cast<int>(5 + std::log(scale)); // Estimate number of octaves needed for the current scale
 
-    static double ms_passed = 0.0f;
-    ms_passed += dt;
+    static double seconds_passed = 0.0f;
+    seconds_passed += dt;
 
-    float perlin = simplex.noise(ms_passed) + 0.5f;
+    float perlin = simplex.noise(seconds_passed) + 0.25f;
     static bool last_hover = m_is_hovered;
 
+    static double seconds_off = 0.0f;
+    if (m_on) {
+        seconds_off = 0.0f;
+    }
+    else {
+        seconds_off += dt;
+    }
+
     if (m_is_hovered) {
-        if (last_hover != m_is_hovered) {
+        //m_on = true;
+        if (seconds_off >= 0.5f) {
             m_on = true;
         }
-        else { 
-            if (perlin >= 0.0f) {
-                m_on = !m_on;
+        else {
+            if (last_hover != m_is_hovered) {
+                m_on = true;
+            }
+            else {
+                if (perlin < 0.0f) {
+                    m_on = !m_on;
+
+                    //printf("On %d (%f)\n", m_on, perlin);
+                }
             }
         }
     }
@@ -74,11 +90,15 @@ void object_button_mm_start::on_render(sf::RenderTarget& target, render_pass pas
     switch (pass)
     {
         case render_pass::draw:
+        case render_pass::bloom:
         {
+            if (!m_on && pass == render_pass::bloom) { return; }
             sf::Texture *p_texture = m_on ? mp_button_on : mp_button_off;
             sf::Sprite start_sprite(*p_texture);
+            start_sprite.setColor(sf::Color(255, 255, 255, 100));
+            start_sprite.setPosition(m_position);
+            start_sprite.setScale(m_scale);
             target.draw(start_sprite);
-            break;
         }
     }
 }
