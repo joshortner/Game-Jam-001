@@ -7,6 +7,7 @@ namespace bk
 {
 
 static inline const char * const g_texture_files_table[] = {
+    "font_sheet.png",
     "main_menu_start_on.png",
     "main_menu_start_off.png",
     "main_menu_border.png",

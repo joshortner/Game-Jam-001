@@ -20,6 +20,7 @@ static inline const char * SHADER_DIR  = "shaders";
 
 enum class texture
 {
+    font_sheet,
     start_button_on,
     start_button_off,
     main_menu_border,
