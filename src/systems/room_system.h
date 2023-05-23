@@ -1,20 +1,19 @@
 #pragma once
 
-#include "../object_manager/object_room.h"
-#include "../object_manager/object_player.h"
-#include "../scene/scene.h"
+#include "system.h"
 
 namespace bk
 {
-    class room_system
+    class room_system :
+        public system
     {
     public:
-        room_system(scene& scene, object_player** player);
+        room_system(flecs::entity player);
 
-        void on_update(double dt, const sf::Vector2i& map_coordinates);
+        void on_render(sf::RenderTarget& target, render_pass pass, flecs::world& world);
+        void on_update(double dt, flecs::world&);
 
     private:
-        scene& m_scene;
-        object_player** m_player;
+        flecs::entity m_player;
     };
 }

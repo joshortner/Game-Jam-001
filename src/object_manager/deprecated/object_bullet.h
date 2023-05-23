@@ -12,8 +12,8 @@ namespace bk
         virtual ~object_bullet() = default;
         
         virtual void on_update(double dt) override;
-        void on_render(sf::RenderTarget& target, render_pass pass);
-        void on_event(event e);
+        void on_render(sf::RenderTarget& target, render_pass pass) override;
+        void on_event(event e) override;
 
         void set_player_owned(bool player_owned) { m_player_owned = player_owned; }
         bool get_player_owned() const { return m_player_owned; }

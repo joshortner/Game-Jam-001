@@ -1,7 +1,10 @@
 #include "application.h"
 #include "bullet_killer.h"
+//#include "../object_manager/object_itf.h"
 #include "scene.h"
 #include "common.h"
+
+#include "../object_manager/components.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -46,24 +49,40 @@ namespace bk
                 current_scene = m_scenes.back();
             }
 
+            auto inputs = current_scene->get_world().filter<component::input>();
+
             sf::Event event;
             while (m_window.pollEvent(event))
             {
                 handle_event(event);
-                current_scene->on_event(convert_sfml_event(event));
+                bk::event bk_event = convert_sfml_event(event);
+                current_scene->on_event(bk_event);
+
+                // get all the input components
+                inputs.each([bk_event](const component::input& script)
+                { script.object->on_event(bk_event); });
             }
 
             m_window.clear();
 
-            // update only the top scene...
+            // get all the scriptable objects and run their methods
             current_scene->on_update(dt);
-            current_scene->update_objects(dt);
+            auto scriptable = current_scene->get_world().filter<component::scriptable>();
+            scriptable.each([dt, current_scene](const component::scriptable& script)
+            { script.object->on_update(dt, current_scene->get_world()); });
+
+            const auto& systems = current_scene->get_systems();
+            for (auto* system : systems)
+                system->on_update(dt, current_scene->get_world());
 
             // ... but render every other scene
             for (auto* scene : m_scenes)
             {
-                scene->on_render();
+                //scene->on_render();
                 scene->render_objects();
+                const auto& systems = scene->get_systems();
+                for (auto* system : systems)
+                    system->on_render(scene->get_render_texture(), render_pass::draw, scene->get_world());
 
                 const sf::Vector2f scale = sf::Vector2f(
                     (float)m_window.getSize().x / (float)scene->get_size().x,

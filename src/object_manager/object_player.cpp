@@ -1,12 +1,199 @@
 #include "object_player.h"
 
-#include "object_bullet.h"
+//#include "object_bullet.h"
 #include "../scene/scene.h"
+#include "../application/application.h"
 
 #include <iostream>
 
 namespace bk
 {
+    object_player::object_player(scene& scene, flecs::world& world) :
+        m_player(world.entity()),
+        m_scene(scene)
+    {
+        m_player.set(component::transform{ 
+                .position = { 0, 0 },
+                .scale = { 1, 1 },
+                .rotation = 0
+            })
+            .set(component::velocity{ 
+                .x = 0, 
+                .y = 0 
+            })
+            .set(component::force{ 
+                .m = 1,
+                .x = 0,
+                .y = 0,
+                .k = 5.f,
+                .max_velocity = 1200.f
+             })
+            .set(component::rectangle {
+                .width = 16,
+                .height = 16,
+                .color = sf::Color::Red
+            }).set(component::ammo {
+                .count = 100
+            })
+            .set(component::hp{
+                .value = 1,
+                .max = 1
+            })
+            .set(component::scriptable {
+                .object = static_cast<component::scriptable_object*>(this)
+            })
+            .set(component::input {
+                .object = static_cast<component::input_object*>(this)
+            })
+            .add<component::player>();
+    }
+
+    void object_player::on_render(sf::RenderTarget& target, render_pass pass)
+    {
+        if (pass != render_pass::draw) return;
+        
+        sf::RectangleShape health_bar;
+        health_bar.setFillColor(sf::Color::Red);
+        health_bar.setSize(sf::Vector2f(16 * 10, 16));
+        health_bar.setOrigin(sf::Vector2f(
+            0,
+            health_bar.getSize().y / 2.f
+        ));
+        health_bar.setPosition(m_scene.get_view().getCenter() - (sf::Vector2f)target.getSize() / 2.f);
+        health_bar.move(sf::Vector2f(
+            (float)target.getSize().x / 2.f - health_bar.getSize().x / 2.f,
+            (float)target.getSize().y - 13
+        ));
+        health_bar.setOutlineThickness(2.f);
+        health_bar.setOutlineColor(sf::Color::Black);
+        target.draw(health_bar);
+
+        health_bar.setOutlineThickness(0.f);
+        health_bar.setScale(sf::Vector2f(m_player.get<component::hp>()->value / m_player.get<component::hp>()->max, 1));
+        health_bar.setFillColor(sf::Color::Green);
+        target.draw(health_bar);
+
+        
+        std::string bullet_string = std::to_string(m_player.get<component::ammo>()->count);
+
+        sf::Sprite m_ammo(*application::get().get_current_scene().get_texture(texture::numbers));
+
+        uint32_t i = 0;
+        for (const auto& c : bullet_string)
+        {
+            int32_t num = (c - '0') - 1;
+            if (num < 0) num = 9;
+
+            m_ammo.setTextureRect(sf::IntRect({ 0, 16 * num }, { 16, 16 }));
+
+            const sf::Vector2f pos = sf::Vector2f(
+                m_player.get<component::transform>()->position.x,
+                m_player.get<component::transform>()->position.y
+            );
+
+            m_ammo.setColor(sf::Color::Black);
+            m_ammo.setPosition(pos + sf::Vector2f(i * 10, 0));
+            m_ammo.move(sf::Vector2f(2, 2));
+            target.draw(m_ammo);
+
+            m_ammo.setColor(sf::Color::White);
+            m_ammo.setPosition(pos + sf::Vector2f(i++ * 10, 0));
+            target.draw(m_ammo);
+        }
+    }
+
+    void object_player::on_update(double dt, flecs::world& world)
+    {
+        const float m = 1.f;
+        auto position  = m_player.get<component::transform>()->position;
+        component::force* force = m_player.get_mut<component::force>();
+        component::velocity* velocity = m_player.get_mut<component::velocity>();
+        
+        force->x = 0; force->y = 0;
+        sf::Vector2f new_force;
+        const float mag = force->max_velocity * force->k;
+        if (m_input[0]) new_force.y -= mag;
+        if (m_input[1]) new_force.y += mag;
+        if (m_input[2]) new_force.x -= mag;
+        if (m_input[3]) new_force.x += mag;
+        if (new_force.length()) new_force = new_force.normalized();
+        force->x = new_force.x * mag;
+        force->y = new_force.y * mag;
+        //const sf::Vector2f normalized_force = sf::Vector2f(force->x, force->y).normalized();
+
+        // get direction from position to mouse
+        const sf::Vector2i mouse_position = sf::Mouse::getPosition(application::get().get_window());
+        const sf::Vector2f scale = application::get().get_scale(m_scene);
+        const sf::Vector2f scaled_mouse((float)mouse_position.x / scale.x, (float)mouse_position.y / scale.y);
+        const sf::Vector2f diff = m_scene.get_view().getCenter() - (sf::Vector2f)m_scene.get_size() / 2.f;
+        const sf::Vector2f player_pos = sf::Vector2f(position.x, position.y);
+        const sf::Vector2f dir = (scaled_mouse - (player_pos - diff)).normalized();
+
+        if (m_input[5])
+        {
+            velocity->x = new_force.x * 1400.f;
+            velocity->y = new_force.y * 1400.f;
+            m_input[5] = 0;
+        }
+
+        auto* ammo = m_player.get_mut<component::ammo>();
+        if (m_input[4] && clock.getElapsedTime().asSeconds() >= 0.06 && ammo->count > 0) 
+        {
+            const sf::Vector2f random_dir = dir.rotatedBy(sf::radians(((rand() % 1000) / 1000.f * 2.f - 1.f) * 0.1f));
+
+            ammo->count -= 1;
+            auto bullet = world.entity();
+            bullet.set(component::transform {
+                .position = position,
+                .scale = { 1, 1 },
+                .rotation = atan2f(dir.y, dir.x)
+            })
+            .set(component::velocity {
+                .x = random_dir.x * 400.f,
+                .y = random_dir.y * 400.f
+            })
+            .set(component::sprite {
+                .texture = m_scene.get_texture(texture::bullet)
+            })
+            .add<component::bullet>();
+
+            clock.restart();
+        }
+    }
+
+    void object_player::on_event(bk::event e)
+    {
+        if (e.m_type == event_type::key_press)
+        {
+            switch (e.m_key.code)
+            {
+            case sf::Keyboard::W: m_input[0] = 1; break;
+            case sf::Keyboard::S: m_input[1] = 1; break;
+            case sf::Keyboard::A: m_input[2] = 1; break;
+            case sf::Keyboard::D: m_input[3] = 1; break;
+            case sf::Keyboard::R: m_player.get_mut<component::ammo>()->count = 100; break;
+            case sf::Keyboard::Space: m_input[5] = 1; break;
+            }
+        }
+        else if (e.m_type == event_type::key_release)
+        {
+            switch (e.m_key.code)
+            {
+            case sf::Keyboard::W: m_input[0] = 0; break;
+            case sf::Keyboard::S: m_input[1] = 0; break;
+            case sf::Keyboard::A: m_input[2] = 0; break;
+            case sf::Keyboard::D: m_input[3] = 0; break;
+            case sf::Keyboard::Space: m_input[5] = 0; break;
+            }
+        }
+
+        if (e.m_type == event_type::mouse_button_pressed)
+            if (e.m_mouse_button.button == sf::Mouse::Button::Left) m_input[4] = 1;
+        if (e.m_type == event_type::mouse_button_released)
+            if (e.m_mouse_button.button == sf::Mouse::Button::Left) m_input[4] = 0;
+    }
+    
+    /*
     object_player::object_player(scene& scene, const sf::Texture& bullet) :
         object_itf(scene, object_type::player),
         m_ammo(bullet)
@@ -132,5 +319,5 @@ namespace bk
             m_ammo.setPosition(rect.getPosition() + sf::Vector2f(i++ * 10, 0));
             target.draw(m_ammo);
         }
-    }
+    }*/
 }

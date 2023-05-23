@@ -2,11 +2,38 @@
 
 #include <bitset>
 
-#include "object_itf.h"
-#include "bullet_killer.h"
+//#include "object_itf.h"
+//#include "bullet_killer.h"
+
+#include <flecs.h>
+
+#include "components.h"
 
 namespace bk
 {
+    class scene;
+
+    class object_player :
+        public component::scriptable_object,
+        public component::input_object
+    {
+    public:
+        object_player(scene& scene, flecs::world& world);
+
+        void on_render(sf::RenderTarget& target, render_pass pass) override;
+        void on_update(double dt, flecs::world& world) override;
+        void on_event(bk::event event) override;
+
+        flecs::entity get_entity() const { return m_player; }
+
+    private:
+        flecs::entity m_player;
+        std::bitset<6> m_input;
+        scene& m_scene;
+        sf::Clock clock;
+    };
+
+    /*
     class object_player :
         public object_itf
     {
@@ -38,5 +65,5 @@ namespace bk
 
         float hp = 1.f;
         uint32_t bullets = 100;
-    };  
+    };  */
 }

@@ -3,8 +3,13 @@
 #include "state.h"
 #include "no_copy.h"
 #include "event.h"
-#include "object_mgr.h"
+//#include "object_mgr.h"
 
+#include "../bullet_killer.h"
+#include "../systems/system.h"
+
+#include <unordered_map>
+#include <flecs.h>
 #include <SFML/Graphics.hpp>
 
 namespace bk
@@ -26,12 +31,15 @@ namespace bk
         sf::RenderTexture m_bloom_surface;
         sf::View m_view;
 
+        flecs::world m_world; // container for all entities
+
     public:
+    /*
         struct game_state
         {
         // Managers
             object_mgr m_obj_mgr;
-        };
+        };*/
 
         // initializes the msurface member
         scene(const sf::Vector2u& dimensions);
@@ -39,10 +47,14 @@ namespace bk
 
         sf::Vector2u       get_size() const;
         const sf::Texture& get_texture() const;
-        game_state&        get_game_state();
+        //game_state&        get_game_state();
         const sf::View&    get_view() const;
         void               set_view(const sf::View& view);
 
+        sf::RenderTexture& get_render_texture() { return m_surface; }
+        sf::Texture* get_texture(bk::texture texture);
+
+        // Unsure if these are necissary
         void update_objects(double dt);
         void render_objects();
 
@@ -50,12 +62,23 @@ namespace bk
         virtual void on_render() { };
         virtual void on_event(event e);
 
-        object_mgr& get_object_manager() { return m_game_state.m_obj_mgr; }
+        // Systems
+        const std::vector<system*>& get_systems() const { return m_systems; }
+        template<typename T, typename... Args> 
+        void add_system(Args&&... args)
+        {
+            m_systems.push_back(new T(args...));
+        }
+
+        flecs::world& get_world() { return m_world; }
+        //object_mgr& get_object_manager() { return m_game_state.m_obj_mgr; }
 
     private:
+        std::unordered_map<bk::texture, sf::Texture*> m_textures;
+        std::vector<system*> m_systems;
         const sf::Vector2u m_dimensions;
 
-    protected:
-        game_state m_game_state;
+    //protected:
+        //game_state m_game_state;
     };
 }

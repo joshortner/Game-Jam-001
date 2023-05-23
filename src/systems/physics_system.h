@@ -4,10 +4,10 @@
 
 namespace bk
 {
-    class bullet_system :
+    class physics_system :
         public system
     {
     public:
-        void on_update(double dt, flecs::world&) override;
+        void on_update(double dt, flecs::world& world) override;
     };
-}
+}   
