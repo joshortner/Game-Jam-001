@@ -106,7 +106,7 @@ namespace bk
     {
         const float m = 1.f;
         auto position  = m_player.get<component::transform>()->position;
-        component::force* force = m_player.get_mut<component::force>();
+        component::force*    force = m_player.get_mut<component::force>();
         component::velocity* velocity = m_player.get_mut<component::velocity>();
         
         force->x = 0; force->y = 0;

@@ -34,28 +34,19 @@ namespace bk
 
         std::unordered_map<shader, sf::Shader *> m_shader_table;
 
+        std::vector<system*> m_systems;
         sf::View m_view;
         std::unordered_map<bk::texture, sf::Texture*> m_textures;
-        std::vector<system*> m_systems;
         const sf::Vector2u m_dimensions;
 
         flecs::world m_world; // container for all entities
 
     public:
-    /*
-        struct game_state
-        {
-        // Managers
-            object_mgr m_obj_mgr;
-        };*/
-
-        // initializes the msurface member
         scene(const sf::Vector2u& dimensions);
         virtual ~scene();
 
         sf::Vector2u       get_size() const;
         const sf::Texture& get_texture() const;
-        //game_state&        get_game_state();
         const sf::View&    get_view() const;
         void               set_view(const sf::View& view);
 
@@ -83,7 +74,6 @@ namespace bk
         }
 
         flecs::world& get_world() { return m_world; }
-        //object_mgr& get_object_manager() { return m_game_state.m_obj_mgr; }
 
     private:
         void do_bloom_pass();

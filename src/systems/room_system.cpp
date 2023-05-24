@@ -109,6 +109,11 @@ namespace bk
                 })
                 .set(component::sprite {
                     .texture = application::get().get_current_scene().get_texture(texture::room)
-                });
+                })
+                .set(component::map_position {
+                    .x = adjacent[i].x,
+                    .y = adjacent[i].y,
+                })
+                .add<component::room>();
     }
 }
